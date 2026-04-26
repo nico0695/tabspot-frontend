@@ -3,7 +3,7 @@
 ## Fase 1: Cimientos del Proyecto (Framework y Entorno)
 El objetivo aquí es levantar el proyecto base y asegurar que las importaciones y variables de entorno estén sólidas desde el inicio.
 
-* [ ] **1. Inicializar Next.js:** Ejecutar `npx create-next-app@latest`. Asegurarte de seleccionar TypeScript, App Router y decirle que **NO** a Tailwind CSS.
+* [X] **1. Inicializar Next.js:** Ejecutar `npx create-next-app@latest`. Asegurarte de seleccionar TypeScript, App Router y decirle que **NO** a Tailwind CSS.
 * [ ] **2. Limpiar Boilerplate:** Eliminar el CSS por defecto y limpiar el `app/page.tsx` y `app/layout.tsx`.
 * [ ] **3. Absolute Imports:** Verificar en `tsconfig.json` que los paths estén configurados (`"@/*": ["./src/*"]`) para usar rutas limpias.
 * [ ] **4. Validación de Entorno:** Instalar y configurar `@t3-oss/env-nextjs` con **Zod**. Crear tu archivo `env.ts` para definir qué variables son obligatorias (ej. las de Supabase) para que el proyecto no compile si faltan.
