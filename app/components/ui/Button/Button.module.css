@@ -1,0 +1,120 @@
+/* Base */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 6px 20px;
+  font: 600 14px var(--font-ui);
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition: var(--t-base);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--accent-ctrl);
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Sizes */
+.s_md {
+  min-height: 36px;
+  padding: 6px 20px;
+  font-size: 14px;
+}
+
+.s_sm {
+  min-height: 28px;
+  padding: 4px 12px;
+  font-size: 12px;
+}
+
+/* Variant: primary */
+.v_primary {
+  background: var(--accent-ctrl);
+  color: white;
+  border-color: transparent;
+}
+
+.v_primary:hover:not(:disabled) {
+  background: var(--accent-ctrl-strong);
+  box-shadow: var(--shadow-1);
+}
+
+.v_primary:active:not(:disabled) {
+  background: var(--accent-ctrl-soft);
+  transform: translateY(1px);
+}
+
+/* Variant: secondary */
+.v_secondary {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.v_secondary:hover:not(:disabled) {
+  background: var(--surface-2);
+  border-color: var(--accent-ctrl);
+}
+
+.v_secondary:active:not(:disabled) {
+  background: var(--accent-ctrl-soft);
+}
+
+/* Variant: ghost */
+.v_ghost {
+  background: transparent;
+  color: var(--text-2);
+  border-color: transparent;
+}
+
+.v_ghost:hover:not(:disabled) {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.v_ghost:active:not(:disabled) {
+  background: var(--accent-ctrl-soft);
+  color: var(--accent-ctrl-strong);
+}
+
+/* Variant: danger */
+.v_danger {
+  background: var(--error);
+  color: white;
+  border-color: transparent;
+}
+
+.v_danger:hover:not(:disabled) {
+  filter: brightness(0.92);
+}
+
+.v_danger:active:not(:disabled) {
+  filter: brightness(0.85);
+  transform: translateY(1px);
+}
+
+/* Variant: danger-ghost */
+.v_danger_ghost {
+  background: transparent;
+  color: var(--error);
+  border-color: var(--error);
+}
+
+.v_danger_ghost:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--error) 12%, transparent);
+}
+
+.v_danger_ghost:active:not(:disabled) {
+  background: color-mix(in oklab, var(--error) 20%, transparent);
+}
