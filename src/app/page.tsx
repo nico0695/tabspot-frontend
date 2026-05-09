@@ -2,8 +2,8 @@
 
 import { useSyncExternalStore } from 'react';
 import { useTheme } from 'next-themes';
-import { Button } from '@/app/components/ui/Button';
-import type { ButtonVariant } from '@/app/components/ui/Button';
+import { Button } from '@/components/ui/Button';
+import type { ButtonVariant } from '@/components/ui/Button';
 import styles from './page.module.css';
 
 const subscribe = () => () => {};

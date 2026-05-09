@@ -1,5 +1,5 @@
 // Side-effect import: runs env validation when Next loads this config, aborting the CLI on failure.
-import './env';
+import './src/lib/env';
 
 import type { NextConfig } from 'next';
 
