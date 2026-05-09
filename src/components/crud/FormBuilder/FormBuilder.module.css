@@ -1,0 +1,22 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2);
+}
+
+.twoCol {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.spanFull {
+  grid-column: 1 / -1;
+}
+
+.footer {
+  margin-top: var(--space-3);
+}
+
+.submitBtn {
+  width: 100%;
+  min-height: 48px;
+}

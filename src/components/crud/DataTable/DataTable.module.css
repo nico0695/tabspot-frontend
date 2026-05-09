@@ -1,0 +1,141 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* ---- Toolbar ---- */
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.searchSlot {
+  flex: 1;
+  max-width: 320px;
+}
+
+.toolbarRight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+/* ---- Table ---- */
+
+.tableContainer {
+  position: relative;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: var(--fs-sm);
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.table th {
+  font: var(--fw-medium) 11px var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-2);
+  background: var(--surface-2);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.table th:first-child {
+  border-top-left-radius: var(--radius-md);
+}
+
+.table th:last-child {
+  border-top-right-radius: var(--radius-md);
+}
+
+.thSortable {
+  cursor: pointer;
+}
+
+.thSortable:hover {
+  color: var(--text);
+}
+
+.thContent {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.thActions {
+  text-align: right;
+  width: 1%;
+}
+
+.table tbody tr:hover {
+  background: var(--surface-2);
+}
+
+/* ---- Sort icons ---- */
+
+.sortInactive {
+  color: var(--text-3);
+}
+
+.sortActive {
+  color: var(--accent-chord);
+}
+
+/* ---- Actions column ---- */
+
+.actionsCell {
+  text-align: right;
+  width: 1%;
+  white-space: nowrap;
+}
+
+.actionsInline {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.menuIcon {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.actionLabel {
+  font: var(--fw-bold) 11px var(--font-mono);
+  text-transform: uppercase;
+}
+
+/* ---- Empty state ---- */
+
+.emptyCell {
+  padding: var(--space-4) var(--space-2);
+  border-bottom: none;
+}
+
+/* ---- Loading overlay ---- */
+
+.loadingOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in oklab, var(--bg) 60%, transparent);
+  border-radius: var(--radius-md);
+  z-index: 1;
+}
