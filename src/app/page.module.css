@@ -20,7 +20,7 @@
 }
 
 .header h1 {
-  font: 700 24px var(--font-ui);
+  font: var(--fw-bold) var(--fs-xl) var(--font-ui);
   letter-spacing: -0.01em;
   color: var(--text);
   margin: 0;
@@ -28,7 +28,7 @@
 
 .tagline {
   margin: 4px 0 0;
-  font: 500 13px var(--font-mono);
+  font: var(--fw-medium) var(--fs-sm) var(--font-mono);
   color: var(--text-2);
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -39,7 +39,7 @@
   padding: 3px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: var(--radius-full);
 }
 
 .themeToggle button {
@@ -47,8 +47,8 @@
   border: 0;
   color: var(--text-2);
   padding: 6px 14px;
-  font: 500 12px var(--font-ui);
-  border-radius: 999px;
+  font: var(--fw-medium) var(--fs-xs) var(--font-ui);
+  border-radius: var(--radius-full);
   cursor: pointer;
   transition: var(--t-base);
 }
@@ -72,7 +72,7 @@
 }
 
 .sectionHeading {
-  font: 600 18px var(--font-ui);
+  font: var(--fw-semibold) var(--fs-lg) var(--font-ui);
   color: var(--text);
   margin: 0 0 var(--space-3);
 }
@@ -84,27 +84,27 @@
 }
 
 .typoStack h1 {
-  font: 700 24px var(--font-ui);
+  font: var(--fw-bold) var(--fs-xl) var(--font-ui);
   letter-spacing: -0.01em;
   color: var(--text);
   margin: 0;
 }
 
 .typoStack h2 {
-  font: 600 18px var(--font-ui);
+  font: var(--fw-semibold) var(--fs-lg) var(--font-ui);
   color: var(--text);
   margin: 0;
 }
 
 .typoStack p {
-  font: 400 16px var(--font-ui);
-  line-height: 1.5;
+  font: var(--fw-regular) var(--fs-base) var(--font-ui);
+  line-height: var(--lh-normal);
   color: var(--text);
   margin: 0;
 }
 
 .typoStack small {
-  font: 500 13px var(--font-ui);
+  font: var(--fw-medium) var(--fs-sm) var(--font-ui);
   letter-spacing: 0.01em;
   color: var(--text-2);
 }
@@ -115,8 +115,8 @@
   background: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  font: 400 13px var(--font-mono);
-  line-height: 1.7;
+  font: var(--fw-regular) var(--fs-sm) var(--font-mono);
+  line-height: var(--lh-relaxed);
   color: var(--text);
   white-space: pre;
   overflow-x: auto;
@@ -141,7 +141,7 @@
 
 .swatch strong {
   display: block;
-  font: 600 13px var(--font-ui);
+  font: var(--fw-semibold) var(--fs-sm) var(--font-ui);
   color: var(--text);
 }
 
@@ -174,7 +174,7 @@
 
 .btnRowLabel {
   min-width: 140px;
-  font: 500 12px var(--font-mono);
+  font: var(--fw-medium) var(--fs-xs) var(--font-mono);
   color: var(--text-2);
   letter-spacing: 0.04em;
   text-transform: uppercase;
