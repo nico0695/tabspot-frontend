@@ -1,0 +1,101 @@
+'use client';
+
+import { useEffect, useState, useCallback } from 'react';
+import type { ReactNode } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
+import Link from 'next/link';
+import { useAuthStore } from '@/store/useAuthStore';
+import { IconButton } from '@/components/ui/IconButton';
+import styles from './layout.module.css';
+
+function LogoutIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+      <polyline points="16 17 21 12 16 7" />
+      <line x1="21" y1="12" x2="9" y2="12" />
+    </svg>
+  );
+}
+
+const NAV_LINKS = [
+  { href: '/admin/genres', label: 'Géneros' },
+  { href: '/admin/artists', label: 'Artistas' },
+  { href: '/admin/songs', label: 'Canciones' },
+  { href: '/admin/tabs', label: 'Tabs' },
+  { href: '/admin/users', label: 'Usuarios' },
+];
+
+export default function AdminLayout({ children }: { children: ReactNode }) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [hydrated, setHydrated] = useState(false);
+
+  const onHydrated = useCallback(() => {
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    const unsub = useAuthStore.persist.onFinishHydration(onHydrated);
+    useAuthStore.persist.rehydrate();
+    return unsub;
+  }, [onHydrated]);
+
+  const user = useAuthStore((s) => s.user);
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const logoutSupabase = useAuthStore((s) => s.logoutSupabase);
+
+  const handleLogout = useCallback(async () => {
+    await logoutSupabase();
+    router.push('/login');
+  }, [logoutSupabase, router]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+
+    if (!isAuthenticated || user?.role !== 'ADMIN') {
+      router.push('/');
+    }
+  }, [hydrated, isAuthenticated, user, router]);
+
+  if (!hydrated || !isAuthenticated || user?.role !== 'ADMIN') {
+    return null;
+  }
+
+  return (
+    <div className={styles.layout}>
+      <nav className={styles.topnav}>
+        <div className={styles.brand}>
+          <span className={styles.brandText}>Admin</span>
+        </div>
+        <div className={styles.nav}>
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={pathname.startsWith(link.href) ? styles.navLinkActive : styles.navLink}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+        <div className={styles.userInfo}>
+          <span className={styles.userName}>{user?.displayName || user?.email}</span>
+          <IconButton size="sm" label="Cerrar sesión" onClick={handleLogout}>
+            <LogoutIcon />
+          </IconButton>
+        </div>
+      </nav>
+      <main className={styles.main}>{children}</main>
+    </div>
+  );
+}
