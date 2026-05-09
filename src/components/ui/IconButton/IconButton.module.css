@@ -1,0 +1,36 @@
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--t-base);
+}
+
+.iconBtn:hover:not(:disabled) {
+  background: var(--surface-2);
+}
+
+.iconBtn:focus-visible {
+  outline: 2px solid var(--accent-ctrl);
+  outline-offset: 2px;
+}
+
+.iconBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.s_md {
+  width: 44px;
+  height: 44px;
+}
+
+.s_sm {
+  width: 32px;
+  height: 32px;
+  font-size: 14px;
+}

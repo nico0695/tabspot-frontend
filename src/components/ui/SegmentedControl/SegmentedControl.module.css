@@ -1,0 +1,50 @@
+.container {
+  display: inline-flex;
+  padding: 3px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  width: fit-content;
+}
+
+.sh_rounded {
+  border-radius: var(--radius-md);
+}
+
+.sh_pill {
+  border-radius: var(--radius-full);
+}
+
+.option {
+  background: transparent;
+  border: 0;
+  color: var(--text-2);
+  padding: 8px 14px;
+  font: var(--fw-medium) var(--fs-sm) var(--font-ui);
+  border-radius: inherit;
+  cursor: pointer;
+  transition: var(--t-base);
+}
+
+.option:hover:not(.optionDisabled) {
+  color: var(--text);
+}
+
+.option:focus-visible {
+  outline: 2px solid var(--accent-ctrl);
+  outline-offset: -2px;
+}
+
+.active {
+  background: var(--accent-ctrl);
+  color: white;
+}
+
+.optionDisabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.s_sm .option {
+  padding: 6px 12px;
+  font-size: var(--fs-xs);
+}

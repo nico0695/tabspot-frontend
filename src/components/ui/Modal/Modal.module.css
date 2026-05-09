@@ -1,0 +1,130 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.overlay[data-state='open'] {
+  animation: fadeIn 200ms var(--ease-out);
+}
+
+.overlay[data-state='closed'] {
+  animation: fadeOut 150ms ease-in;
+}
+
+.content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  box-shadow: var(--shadow-2);
+  z-index: 101;
+  width: calc(100% - var(--space-4));
+}
+
+.content[data-state='open'] {
+  animation: contentIn 200ms var(--ease-out);
+}
+
+.content[data-state='closed'] {
+  animation: contentOut 150ms ease-in;
+}
+
+.content:focus {
+  outline: none;
+}
+
+.title {
+  font: var(--fw-semibold) 17px var(--font-ui);
+  margin: 0 0 var(--space-1);
+  padding-right: var(--space-4);
+}
+
+.description {
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+  margin: 0 0 20px;
+}
+
+.body {
+  /* content area */
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-1);
+  margin-top: 20px;
+}
+
+.closeBtn {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  background: transparent;
+  color: var(--text-2);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--t-base);
+}
+
+.closeBtn:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.closeBtn:focus-visible {
+  outline: 2px solid var(--accent-ctrl);
+  outline-offset: 2px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes contentIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes contentOut {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+}

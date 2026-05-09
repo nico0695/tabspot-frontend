@@ -1,0 +1,56 @@
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-full);
+  font: var(--fw-medium) var(--fs-sm) var(--font-ui);
+  color: var(--text);
+  cursor: pointer;
+  transition: var(--t-base);
+}
+
+.chip:hover:not(.disabled) {
+  border-color: var(--accent-ctrl);
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--accent-ctrl);
+  outline-offset: 2px;
+}
+
+.selected {
+  background: var(--accent-ctrl);
+  border-color: var(--accent-ctrl);
+  color: white;
+}
+
+.selected:hover:not(.disabled) {
+  background: var(--accent-ctrl-strong);
+  border-color: var(--accent-ctrl-strong);
+}
+
+.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.removeBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  cursor: pointer;
+  border-radius: var(--radius-full);
+  width: 18px;
+  height: 18px;
+}
+
+.removeBtn:hover {
+  background: color-mix(in oklab, currentColor 15%, transparent);
+}

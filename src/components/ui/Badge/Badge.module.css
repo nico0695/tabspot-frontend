@@ -1,0 +1,49 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font: var(--fw-medium) var(--fs-xs) var(--font-ui);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.v_draft {
+  color: var(--text-3);
+}
+
+.v_pending {
+  color: var(--warning);
+  border-color: color-mix(in oklab, var(--warning) 30%, transparent);
+  background: color-mix(in oklab, var(--warning) 8%, transparent);
+}
+
+.v_published {
+  color: var(--success);
+  border-color: color-mix(in oklab, var(--success) 30%, transparent);
+  background: color-mix(in oklab, var(--success) 8%, transparent);
+}
+
+.v_rejected {
+  color: var(--error);
+  border-color: color-mix(in oklab, var(--error) 30%, transparent);
+  background: color-mix(in oklab, var(--error) 8%, transparent);
+}
+
+.v_instrument {
+  color: var(--accent-chord);
+  border-color: color-mix(in oklab, var(--accent-chord) 40%, transparent);
+  background: var(--accent-chord-soft);
+}
+
+.v_type {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.08em;
+  color: var(--text-2);
+  background: var(--surface-2);
+}

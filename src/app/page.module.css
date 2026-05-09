@@ -34,34 +34,6 @@
   text-transform: uppercase;
 }
 
-.themeToggle {
-  display: inline-flex;
-  padding: 3px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-full);
-}
-
-.themeToggle button {
-  background: transparent;
-  border: 0;
-  color: var(--text-2);
-  padding: 6px 14px;
-  font: var(--fw-medium) var(--fs-xs) var(--font-ui);
-  border-radius: var(--radius-full);
-  cursor: pointer;
-  transition: var(--t-base);
-}
-
-.themeToggle button:hover {
-  color: var(--text);
-}
-
-.themeToggle button[aria-pressed='true'] {
-  background: var(--accent-ctrl);
-  color: white;
-}
-
 .section {
   padding: var(--space-4) 0;
   border-top: 1px dashed var(--border);
@@ -178,4 +150,45 @@
   color: var(--text-2);
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+/* ----- New demo sections ----- */
+
+.componentRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.inputGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-2);
+}
+
+.formControlsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.controlStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.subsectionLabel {
+  font: var(--fw-medium) var(--fs-xs) var(--font-mono);
+  color: var(--text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 var(--space-2);
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
 }
