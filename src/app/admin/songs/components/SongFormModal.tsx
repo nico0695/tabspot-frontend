@@ -9,8 +9,8 @@ import { Badge } from '@/components/ui/Badge';
 import { useCreateSong, useUpdateSong, useDeleteSong } from '@/features/admin/songs/songs.hooks';
 import { songFormSchema, type SongFormData } from '@/features/admin/songs/songs.schema';
 import type { AdminSong, SongFormModalMode } from '@/features/admin/songs/songs.types';
-import { useAdminArtists } from '@/features/admin/artists';
-import { useAdminGenres } from '@/features/admin/genres';
+import { useArtistSelectOptions } from '@/features/admin/artists';
+import { useGenreSelectOptions } from '@/features/admin/genres';
 import { ApiError } from '@/lib/api';
 import { formatDate } from '@/lib/format';
 import { cleanSongData } from '@/features/admin/songs/songs.utils';
@@ -82,18 +82,12 @@ export function SongFormModal({ mode, song, open, onOpenChange }: SongFormModalP
   const updateMutation = useUpdateSong();
   const deleteMutation = useDeleteSong();
 
-  const artistsQuery = useAdminArtists({ pageSize: 500 });
-  const genresQuery = useAdminGenres({ pageSize: 500 });
+  const artistsQuery = useArtistSelectOptions();
+  const genresQuery = useGenreSelectOptions();
 
-  const artistOptions = useMemo(
-    () => (artistsQuery.data?.data ?? []).map((a) => ({ value: a.id, label: a.name })),
-    [artistsQuery.data],
-  );
+  const artistOptions = useMemo(() => artistsQuery.data ?? [], [artistsQuery.data]);
 
-  const genreOptions = useMemo(
-    () => (genresQuery.data?.data ?? []).map((g) => ({ value: g.id, label: g.name })),
-    [genresQuery.data],
-  );
+  const genreOptions = useMemo(() => genresQuery.data ?? [], [genresQuery.data]);
 
   const isLoadingOptions = artistsQuery.isLoading || genresQuery.isLoading;
 

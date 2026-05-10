@@ -1,8 +1,14 @@
 import { apiClient } from '@/lib/api/client';
 import type { OffsetPage } from '@/lib/api/types';
-import type { AdminArtist, CreateArtistInput, UpdateArtistInput } from './artists.types';
+import type {
+  AdminArtist,
+  ArtistSelectItem,
+  CreateArtistInput,
+  UpdateArtistInput,
+} from './artists.types';
 
 const BASE_PATH = '/api/v1/admin/artists';
+const ALL_ARTISTS_PATH = '/api/v1/artists/all';
 
 export interface ListAdminArtistsParams {
   page?: number;
@@ -25,6 +31,10 @@ export function listAdminArtists(
   const path = qs ? `${BASE_PATH}?${qs}` : BASE_PATH;
 
   return apiClient.get<OffsetPage<AdminArtist>>(path);
+}
+
+export function listAllArtists(): Promise<ArtistSelectItem[]> {
+  return apiClient.get<ArtistSelectItem[]>(ALL_ARTISTS_PATH);
 }
 
 export function getAdminArtist(id: string): Promise<AdminArtist> {

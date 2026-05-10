@@ -9,7 +9,7 @@ import { Select } from '@/components/ui/Select';
 import { useAdminSongs } from '@/features/admin/songs/songs.hooks';
 import { songColumns } from '@/features/admin/songs/songs.columns';
 import type { AdminSong, SongFormModalMode } from '@/features/admin/songs/songs.types';
-import { useAdminArtists } from '@/features/admin/artists';
+import { useArtistSelectOptions } from '@/features/admin/artists';
 import { useDebounce } from '@/hooks/useDebounce';
 import { SongFormModal } from './components/SongFormModal';
 import styles from './page.module.css';
@@ -29,13 +29,10 @@ export default function AdminSongsPage() {
     song?: AdminSong;
   } | null>(null);
 
-  const artistsQuery = useAdminArtists({ pageSize: 500 });
+  const artistsQuery = useArtistSelectOptions();
 
   const artistFilterOptions = useMemo(
-    () => [
-      { value: ALL_ARTISTS_VALUE, label: 'Todos los artistas' },
-      ...(artistsQuery.data?.data ?? []).map((a) => ({ value: a.id, label: a.name })),
-    ],
+    () => [{ value: ALL_ARTISTS_VALUE, label: 'Todos los artistas' }, ...(artistsQuery.data ?? [])],
     [artistsQuery.data],
   );
 

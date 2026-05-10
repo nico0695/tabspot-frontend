@@ -1,5 +1,16 @@
 export type ArtistFormModalMode = 'create' | 'edit' | 'detail' | 'delete';
 
+export interface ArtistSelectItem {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+export interface ArtistSelectOption {
+  value: string;
+  label: string;
+}
+
 export interface AdminArtist {
   id: string;
   name: string;

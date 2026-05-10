@@ -1,8 +1,14 @@
 import { apiClient } from '@/lib/api/client';
 import type { OffsetPage } from '@/lib/api/types';
-import type { AdminGenre, CreateGenreInput, UpdateGenreInput } from './genres.types';
+import type {
+  AdminGenre,
+  CreateGenreInput,
+  GenreSelectItem,
+  UpdateGenreInput,
+} from './genres.types';
 
 const BASE_PATH = '/api/v1/admin/genres';
+const ALL_GENRES_PATH = '/api/v1/genres/all';
 
 export interface ListAdminGenresParams {
   page?: number;
@@ -23,6 +29,10 @@ export function listAdminGenres(params?: ListAdminGenresParams): Promise<OffsetP
   const path = qs ? `${BASE_PATH}?${qs}` : BASE_PATH;
 
   return apiClient.get<OffsetPage<AdminGenre>>(path);
+}
+
+export function listAllGenres(): Promise<GenreSelectItem[]> {
+  return apiClient.get<GenreSelectItem[]>(ALL_GENRES_PATH);
 }
 
 export function getAdminGenre(id: string): Promise<AdminGenre> {
