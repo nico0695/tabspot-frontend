@@ -15,8 +15,8 @@
 }
 
 .option {
+  all: unset;
   background: transparent;
-  border: 0;
   color: var(--text-2);
   padding: 8px 14px;
   font: var(--fw-medium) var(--fs-sm) var(--font-ui);
@@ -25,7 +25,7 @@
   transition: var(--t-base);
 }
 
-.option:hover:not(.optionDisabled) {
+.option:hover:not([data-disabled]) {
   color: var(--text);
 }
 
@@ -34,12 +34,12 @@
   outline-offset: -2px;
 }
 
-.active {
+.option[data-state='checked'] {
   background: var(--accent-ctrl);
   color: white;
 }
 
-.optionDisabled {
+.option[data-disabled] {
   opacity: 0.4;
   cursor: not-allowed;
 }

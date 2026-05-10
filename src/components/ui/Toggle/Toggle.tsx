@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useId } from 'react';
+import * as Switch from '@radix-ui/react-switch';
 import styles from './Toggle.module.css';
 
 export interface ToggleProps {
@@ -20,35 +20,21 @@ export function Toggle({
   disabled = false,
   className,
 }: ToggleProps) {
-  const [internal, setInternal] = useState(defaultChecked ?? false);
-  const isControlled = checked !== undefined;
-  const active = isControlled ? checked : internal;
-  const id = useId();
-
-  const handleChange = () => {
-    if (disabled) return;
-    const next = !active;
-    if (!isControlled) setInternal(next);
-    onChange?.(next);
-  };
-
-  const cls = [styles.toggle, active && styles.checked, disabled && styles.disabled, className]
-    .filter(Boolean)
-    .join(' ');
+  const cls = [styles.toggle, disabled && styles.disabled, className].filter(Boolean).join(' ');
 
   return (
-    <label className={cls} htmlFor={id}>
-      <input
-        id={id}
-        type="checkbox"
-        className={styles.hiddenInput}
-        checked={active}
-        onChange={handleChange}
+    <label className={cls}>
+      <Switch.Root
+        className={styles.track}
+        checked={checked}
+        defaultChecked={defaultChecked}
+        onCheckedChange={(value) => {
+          if (typeof value === 'boolean') onChange?.(value);
+        }}
         disabled={disabled}
-      />
-      <span className={styles.track}>
-        <span className={styles.thumb} />
-      </span>
+      >
+        <Switch.Thumb className={styles.thumb} />
+      </Switch.Root>
       {label}
     </label>
   );

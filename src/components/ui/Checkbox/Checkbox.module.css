@@ -7,13 +7,8 @@
   cursor: pointer;
 }
 
-.hiddenInput {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-
 .box {
+  all: unset;
   width: 18px;
   height: 18px;
   border: 1.5px solid var(--border-strong);
@@ -26,13 +21,14 @@
   flex-shrink: 0;
 }
 
-.checked .box {
+.box[data-state='checked'] {
   background: var(--accent-ctrl);
   border-color: var(--accent-ctrl);
 }
 
-.checked .box::after {
+.indicator::after {
   content: '';
+  display: block;
   width: 10px;
   height: 6px;
   border-left: 2px solid #fff;
@@ -45,7 +41,7 @@
   cursor: not-allowed;
 }
 
-.hiddenInput:focus-visible ~ .box {
+.box:focus-visible {
   outline: 2px solid var(--accent-ctrl);
   outline-offset: 2px;
 }

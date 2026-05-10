@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useId } from 'react';
+import * as RadixCheckbox from '@radix-ui/react-checkbox';
 import styles from './Checkbox.module.css';
 
 export interface CheckboxProps {
@@ -20,33 +20,21 @@ export function Checkbox({
   disabled = false,
   className,
 }: CheckboxProps) {
-  const [internal, setInternal] = useState(defaultChecked ?? false);
-  const isControlled = checked !== undefined;
-  const active = isControlled ? checked : internal;
-  const id = useId();
-
-  const handleChange = () => {
-    if (disabled) return;
-    const next = !active;
-    if (!isControlled) setInternal(next);
-    onChange?.(next);
-  };
-
-  const cls = [styles.checkbox, active && styles.checked, disabled && styles.disabled, className]
-    .filter(Boolean)
-    .join(' ');
+  const cls = [styles.checkbox, disabled && styles.disabled, className].filter(Boolean).join(' ');
 
   return (
-    <label className={cls} htmlFor={id}>
-      <input
-        id={id}
-        type="checkbox"
-        className={styles.hiddenInput}
-        checked={active}
-        onChange={handleChange}
+    <label className={cls}>
+      <RadixCheckbox.Root
+        className={styles.box}
+        checked={checked}
+        defaultChecked={defaultChecked}
+        onCheckedChange={(value) => {
+          if (typeof value === 'boolean') onChange?.(value);
+        }}
         disabled={disabled}
-      />
-      <span className={styles.box} />
+      >
+        <RadixCheckbox.Indicator className={styles.indicator} />
+      </RadixCheckbox.Root>
       {label}
     </label>
   );

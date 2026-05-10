@@ -7,13 +7,8 @@
   cursor: pointer;
 }
 
-.hiddenInput {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-
 .track {
+  all: unset;
   width: 40px;
   height: 22px;
   background: var(--surface-2);
@@ -25,6 +20,7 @@
 }
 
 .thumb {
+  display: block;
   position: absolute;
   top: 2px;
   left: 2px;
@@ -35,12 +31,12 @@
   transition: var(--t-base);
 }
 
-.checked .track {
+.track[data-state='checked'] {
   background: var(--accent-ctrl);
   border-color: var(--accent-ctrl);
 }
 
-.checked .thumb {
+.track[data-state='checked'] .thumb {
   left: 20px;
   background: white;
 }
@@ -50,7 +46,7 @@
   cursor: not-allowed;
 }
 
-.hiddenInput:focus-visible ~ .track {
+.track:focus-visible {
   outline: 2px solid var(--accent-ctrl);
   outline-offset: 2px;
 }
