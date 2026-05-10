@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { listAdminArtists, createArtist, updateArtist, deleteArtist } from './api';
-import type { ListAdminArtistsParams } from './api';
-import type { UpdateArtistInput } from './types';
+import { listAdminArtists, createArtist, updateArtist, deleteArtist } from './artists.api';
+import type { ListAdminArtistsParams } from './artists.api';
+import type { UpdateArtistInput } from './artists.types';
 
 const ADMIN_ARTISTS_KEY = ['admin', 'artists'] as const;
 

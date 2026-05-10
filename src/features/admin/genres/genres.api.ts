@@ -1,6 +1,6 @@
 import { apiClient } from '@/lib/api/client';
 import type { OffsetPage } from '@/lib/api/types';
-import type { AdminGenre, CreateGenreInput, UpdateGenreInput } from './types';
+import type { AdminGenre, CreateGenreInput, UpdateGenreInput } from './genres.types';
 
 const BASE_PATH = '/api/v1/admin/genres';
 

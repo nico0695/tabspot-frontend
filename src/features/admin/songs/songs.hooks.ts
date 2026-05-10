@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { listAdminSongs, createSong, updateSong, deleteSong } from './api';
-import type { ListAdminSongsParams } from './api';
-import type { UpdateSongInput } from './types';
+import { listAdminSongs, createSong, updateSong, deleteSong } from './songs.api';
+import type { ListAdminSongsParams } from './songs.api';
+import type { UpdateSongInput } from './songs.types';
 
 const ADMIN_SONGS_KEY = ['admin', 'songs'] as const;
 

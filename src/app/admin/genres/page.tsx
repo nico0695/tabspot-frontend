@@ -5,11 +5,11 @@ import { DataTable, type ActionConfig, type SortDirection } from '@/components/c
 import { Eye, Pencil, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Toggle } from '@/components/ui/Toggle';
-import { useAdminGenres } from '@/features/admin/genres/hooks';
-import { genreColumns } from '@/features/admin/genres/columns';
-import type { AdminGenre } from '@/features/admin/genres/types';
+import { useAdminGenres } from '@/features/admin/genres/genres.hooks';
+import { genreColumns } from '@/features/admin/genres/genres.columns';
+import type { AdminGenre, GenreFormModalMode } from '@/features/admin/genres/genres.types';
 import { useDebounce } from '@/hooks/useDebounce';
-import { GenreFormModal, type GenreFormModalMode } from './GenreFormModal';
+import { GenreFormModal } from './components/GenreFormModal';
 import styles from './page.module.css';
 
 export default function AdminGenresPage() {

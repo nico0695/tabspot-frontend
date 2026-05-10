@@ -5,11 +5,11 @@ import { DataTable, type ActionConfig, type SortDirection } from '@/components/c
 import { Eye, Pencil, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Toggle } from '@/components/ui/Toggle';
-import { useAdminArtists } from '@/features/admin/artists/hooks';
-import { artistColumns } from '@/features/admin/artists/columns';
-import type { AdminArtist } from '@/features/admin/artists/types';
+import { useAdminArtists } from '@/features/admin/artists/artists.hooks';
+import { artistColumns } from '@/features/admin/artists/artists.columns';
+import type { AdminArtist, ArtistFormModalMode } from '@/features/admin/artists/artists.types';
 import { useDebounce } from '@/hooks/useDebounce';
-import { ArtistFormModal, type ArtistFormModalMode } from './ArtistFormModal';
+import { ArtistFormModal } from './components/ArtistFormModal';
 import styles from './page.module.css';
 
 export default function AdminArtistsPage() {

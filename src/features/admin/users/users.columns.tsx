@@ -2,7 +2,7 @@
 
 import { createColumnHelper } from '@tanstack/react-table';
 import { Badge } from '@/components/ui/Badge';
-import type { AdminUser } from './types';
+import type { AdminUser } from './users.types';
 
 const columnHelper = createColumnHelper<AdminUser>();
 

@@ -4,24 +4,13 @@ import { useState, useCallback } from 'react';
 import { DataTable, type ActionConfig } from '@/components/crud/DataTable';
 import { Eye, Shield, UserCheck } from 'lucide-react';
 import { Select } from '@/components/ui/Select';
-import { useAdminUsers } from '@/features/admin/users/hooks';
-import { userColumns } from '@/features/admin/users/columns';
-import type { AdminUser } from '@/features/admin/users/types';
+import { useAdminUsers } from '@/features/admin/users/users.hooks';
+import { userColumns } from '@/features/admin/users/users.columns';
+import type { AdminUser, UserActionModalMode } from '@/features/admin/users/users.types';
 import { useAuthStore } from '@/store/useAuthStore';
-import { UserActionModal, type UserActionModalMode } from './UserActionModal';
+import { UserActionModal } from './components/UserActionModal';
+import { ROLE_FILTER_OPTIONS, STATUS_FILTER_OPTIONS } from './users.constants';
 import styles from './page.module.css';
-
-const ROLE_FILTER_OPTIONS = [
-  { value: '', label: 'Todos los roles' },
-  { value: 'USER', label: 'Usuario' },
-  { value: 'ADMIN', label: 'Admin' },
-];
-
-const STATUS_FILTER_OPTIONS = [
-  { value: '', label: 'Todos los estados' },
-  { value: 'ACTIVE', label: 'Activo' },
-  { value: 'BLOCKED', label: 'Bloqueado' },
-];
 
 export default function AdminUsersPage() {
   const [page, setPage] = useState(1);

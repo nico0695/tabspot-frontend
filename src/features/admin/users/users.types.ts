@@ -1,3 +1,5 @@
+export type UserActionModalMode = 'detail' | 'change-role' | 'change-status';
+
 export interface AdminUser {
   id: string;
   supabaseAuthId: string;

@@ -1,6 +1,6 @@
 import { apiClient } from '@/lib/api/client';
 import type { OffsetPage } from '@/lib/api/types';
-import type { AdminArtist, CreateArtistInput, UpdateArtistInput } from './types';
+import type { AdminArtist, CreateArtistInput, UpdateArtistInput } from './artists.types';
 
 const BASE_PATH = '/api/v1/admin/artists';
 

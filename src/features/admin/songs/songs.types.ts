@@ -1,3 +1,5 @@
+export type SongFormModalMode = 'create' | 'edit' | 'detail' | 'delete';
+
 export interface AdminSong {
   id: string;
   artistId: string;

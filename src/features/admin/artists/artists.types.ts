@@ -1,3 +1,5 @@
+export type ArtistFormModalMode = 'create' | 'edit' | 'detail' | 'delete';
+
 export interface AdminArtist {
   id: string;
   name: string;

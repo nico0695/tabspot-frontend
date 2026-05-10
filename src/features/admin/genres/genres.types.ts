@@ -1,3 +1,5 @@
+export type GenreFormModalMode = 'create' | 'edit' | 'detail' | 'delete';
+
 export interface AdminGenre {
   id: string;
   name: string;

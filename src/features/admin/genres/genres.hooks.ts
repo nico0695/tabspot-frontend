@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { listAdminGenres, createGenre, updateGenre, deleteGenre } from './api';
-import type { ListAdminGenresParams } from './api';
-import type { UpdateGenreInput } from './types';
+import { listAdminGenres, createGenre, updateGenre, deleteGenre } from './genres.api';
+import type { ListAdminGenresParams } from './genres.api';
+import type { UpdateGenreInput } from './genres.types';
 
 const ADMIN_GENRES_KEY = ['admin', 'genres'] as const;
 

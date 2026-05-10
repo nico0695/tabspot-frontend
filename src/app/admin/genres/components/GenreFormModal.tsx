@@ -6,40 +6,23 @@ import { FormBuilder, type FieldConfig } from '@/components/crud/FormBuilder';
 import { Button } from '@/components/ui/Button';
 import { Spinner } from '@/components/ui/Spinner';
 import { Badge } from '@/components/ui/Badge';
-import { useCreateGenre, useUpdateGenre, useDeleteGenre } from '@/features/admin/genres/hooks';
-import { genreFormSchema, type GenreFormData } from '@/features/admin/genres/schema';
-import type { AdminGenre } from '@/features/admin/genres/types';
+import {
+  useCreateGenre,
+  useUpdateGenre,
+  useDeleteGenre,
+} from '@/features/admin/genres/genres.hooks';
+import { genreFormSchema, type GenreFormData } from '@/features/admin/genres/genres.schema';
+import type { AdminGenre, GenreFormModalMode } from '@/features/admin/genres/genres.types';
 import { ApiError } from '@/lib/api';
+import { formatDate } from '@/lib/format';
+import { MODAL_TITLES, FORM_FIELDS } from '../genres.constants';
 import styles from './GenreFormModal.module.css';
-
-export type GenreFormModalMode = 'create' | 'edit' | 'detail' | 'delete';
 
 interface GenreFormModalProps {
   mode: GenreFormModalMode;
   genre?: AdminGenre;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-}
-
-const MODAL_TITLES: Record<GenreFormModalMode, string> = {
-  create: 'Crear género',
-  edit: 'Editar género',
-  detail: 'Detalle del género',
-  delete: 'Eliminar género',
-};
-
-const FORM_FIELDS: FieldConfig<GenreFormData>[] = [
-  { name: 'name', type: 'text', label: 'Nombre', placeholder: 'Ej: Rock' },
-];
-
-function formatDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString('es-AR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
 }
 
 function GenreDetail({ genre }: { genre: AdminGenre }) {

@@ -6,44 +6,18 @@ import { Select } from '@/components/ui/Select';
 import { Button } from '@/components/ui/Button';
 import { Spinner } from '@/components/ui/Spinner';
 import { Badge } from '@/components/ui/Badge';
-import { useChangeUserRole, useChangeUserStatus } from '@/features/admin/users/hooks';
-import type { AdminUser } from '@/features/admin/users/types';
+import { useChangeUserRole, useChangeUserStatus } from '@/features/admin/users/users.hooks';
+import type { AdminUser, UserActionModalMode } from '@/features/admin/users/users.types';
 import { ApiError } from '@/lib/api';
+import { formatDate } from '@/lib/format';
+import { MODAL_TITLES, ROLE_OPTIONS, STATUS_OPTIONS } from '../users.constants';
 import styles from './UserActionModal.module.css';
-
-export type UserActionModalMode = 'detail' | 'change-role' | 'change-status';
 
 interface UserActionModalProps {
   mode: UserActionModalMode;
   user: AdminUser;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-}
-
-const MODAL_TITLES: Record<UserActionModalMode, string> = {
-  detail: 'Detalle del usuario',
-  'change-role': 'Cambiar rol',
-  'change-status': 'Cambiar estado',
-};
-
-const ROLE_OPTIONS = [
-  { value: 'USER', label: 'Usuario' },
-  { value: 'ADMIN', label: 'Admin' },
-];
-
-const STATUS_OPTIONS = [
-  { value: 'ACTIVE', label: 'Activo' },
-  { value: 'BLOCKED', label: 'Bloqueado' },
-];
-
-function formatDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString('es-AR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
 }
 
 function roleBadge(role: string) {

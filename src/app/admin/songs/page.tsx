@@ -6,12 +6,12 @@ import { Eye, Pencil, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Toggle } from '@/components/ui/Toggle';
 import { Select } from '@/components/ui/Select';
-import { useAdminSongs } from '@/features/admin/songs/hooks';
-import { songColumns } from '@/features/admin/songs/columns';
-import type { AdminSong } from '@/features/admin/songs/types';
+import { useAdminSongs } from '@/features/admin/songs/songs.hooks';
+import { songColumns } from '@/features/admin/songs/songs.columns';
+import type { AdminSong, SongFormModalMode } from '@/features/admin/songs/songs.types';
 import { useAdminArtists } from '@/features/admin/artists';
 import { useDebounce } from '@/hooks/useDebounce';
-import { SongFormModal, type SongFormModalMode } from './SongFormModal';
+import { SongFormModal } from './components/SongFormModal';
 import styles from './page.module.css';
 
 const ALL_ARTISTS_VALUE = '__all__';

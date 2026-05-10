@@ -2,11 +2,11 @@
 
 import { createColumnHelper } from '@tanstack/react-table';
 import { Badge } from '@/components/ui/Badge';
-import type { AdminArtist } from './types';
+import type { AdminGenre } from './genres.types';
 
-const columnHelper = createColumnHelper<AdminArtist>();
+const columnHelper = createColumnHelper<AdminGenre>();
 
-export const artistColumns = [
+export const genreColumns = [
   columnHelper.accessor('name', {
     header: 'Nombre',
     enableSorting: true,
@@ -19,14 +19,6 @@ export const artistColumns = [
         {info.getValue()}
       </code>
     ),
-  }),
-  columnHelper.accessor('sortName', {
-    header: 'Nombre de orden',
-    enableSorting: true,
-    cell: (info) => {
-      const value = info.getValue();
-      return value ?? '—';
-    },
   }),
   columnHelper.accessor('deletedAt', {
     header: 'Estado',

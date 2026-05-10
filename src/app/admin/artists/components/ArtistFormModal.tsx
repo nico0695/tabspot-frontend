@@ -6,47 +6,23 @@ import { FormBuilder, type FieldConfig } from '@/components/crud/FormBuilder';
 import { Button } from '@/components/ui/Button';
 import { Spinner } from '@/components/ui/Spinner';
 import { Badge } from '@/components/ui/Badge';
-import { useCreateArtist, useUpdateArtist, useDeleteArtist } from '@/features/admin/artists/hooks';
-import { artistFormSchema, type ArtistFormData } from '@/features/admin/artists/schema';
-import type { AdminArtist } from '@/features/admin/artists/types';
+import {
+  useCreateArtist,
+  useUpdateArtist,
+  useDeleteArtist,
+} from '@/features/admin/artists/artists.hooks';
+import { artistFormSchema, type ArtistFormData } from '@/features/admin/artists/artists.schema';
+import type { AdminArtist, ArtistFormModalMode } from '@/features/admin/artists/artists.types';
 import { ApiError } from '@/lib/api';
+import { formatDate } from '@/lib/format';
+import { MODAL_TITLES, FORM_FIELDS } from '../artists.constants';
 import styles from './ArtistFormModal.module.css';
-
-export type ArtistFormModalMode = 'create' | 'edit' | 'detail' | 'delete';
 
 interface ArtistFormModalProps {
   mode: ArtistFormModalMode;
   artist?: AdminArtist;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-}
-
-const MODAL_TITLES: Record<ArtistFormModalMode, string> = {
-  create: 'Crear artista',
-  edit: 'Editar artista',
-  detail: 'Detalle del artista',
-  delete: 'Eliminar artista',
-};
-
-const FORM_FIELDS: FieldConfig<ArtistFormData>[] = [
-  { name: 'name', type: 'text', label: 'Nombre', placeholder: 'Ej: Soda Stereo' },
-  {
-    name: 'sortName',
-    type: 'text',
-    label: 'Nombre de orden',
-    placeholder: 'Ej: Soda Stereo',
-    hint: 'Nombre para ordenamiento alfabético',
-  },
-];
-
-function formatDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString('es-AR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
 }
 
 function ArtistDetail({ artist }: { artist: AdminArtist }) {

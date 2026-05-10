@@ -1,6 +1,6 @@
 import { apiClient } from '@/lib/api/client';
 import type { OffsetPage } from '@/lib/api/types';
-import type { AdminSong, CreateSongInput, UpdateSongInput } from './types';
+import type { AdminSong, CreateSongInput, UpdateSongInput } from './songs.types';
 
 const BASE_PATH = '/api/v1/admin/songs';
 

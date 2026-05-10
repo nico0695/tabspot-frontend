@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { listAdminUsers, changeUserRole, changeUserStatus } from './api';
-import type { ListAdminUsersParams } from './api';
-import type { ChangeRoleInput, ChangeStatusInput } from './types';
+import { listAdminUsers, changeUserRole, changeUserStatus } from './users.api';
+import type { ListAdminUsersParams } from './users.api';
+import type { ChangeRoleInput, ChangeStatusInput } from './users.types';
 
 const ADMIN_USERS_KEY = ['admin', 'users'] as const;
 

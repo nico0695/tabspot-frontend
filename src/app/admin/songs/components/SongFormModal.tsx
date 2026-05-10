@@ -6,38 +6,22 @@ import { FormBuilder, type FieldConfig } from '@/components/crud/FormBuilder';
 import { Button } from '@/components/ui/Button';
 import { Spinner } from '@/components/ui/Spinner';
 import { Badge } from '@/components/ui/Badge';
-import { useCreateSong, useUpdateSong, useDeleteSong } from '@/features/admin/songs/hooks';
-import { songFormSchema, type SongFormData } from '@/features/admin/songs/schema';
-import type { AdminSong } from '@/features/admin/songs/types';
+import { useCreateSong, useUpdateSong, useDeleteSong } from '@/features/admin/songs/songs.hooks';
+import { songFormSchema, type SongFormData } from '@/features/admin/songs/songs.schema';
+import type { AdminSong, SongFormModalMode } from '@/features/admin/songs/songs.types';
 import { useAdminArtists } from '@/features/admin/artists';
 import { useAdminGenres } from '@/features/admin/genres';
 import { ApiError } from '@/lib/api';
+import { formatDate } from '@/lib/format';
+import { cleanSongData } from '@/features/admin/songs/songs.utils';
+import { MODAL_TITLES } from '../songs.constants';
 import styles from './SongFormModal.module.css';
-
-export type SongFormModalMode = 'create' | 'edit' | 'detail' | 'delete';
 
 interface SongFormModalProps {
   mode: SongFormModalMode;
   song?: AdminSong;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-}
-
-const MODAL_TITLES: Record<SongFormModalMode, string> = {
-  create: 'Crear canción',
-  edit: 'Editar canción',
-  detail: 'Detalle de la canción',
-  delete: 'Eliminar canción',
-};
-
-function formatDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString('es-AR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
 }
 
 function SongDetail({ song }: { song: AdminSong }) {
@@ -89,16 +73,6 @@ function SongDetail({ song }: { song: AdminSong }) {
       </div>
     </div>
   );
-}
-
-function cleanSongData(data: SongFormData) {
-  return {
-    ...data,
-    subtitle: data.subtitle && data.subtitle.length > 0 ? data.subtitle : undefined,
-    releaseYear:
-      data.releaseYear != null && !Number.isNaN(data.releaseYear) ? data.releaseYear : undefined,
-    genreIds: data.genreIds && data.genreIds.length > 0 ? data.genreIds : undefined,
-  };
 }
 
 export function SongFormModal({ mode, song, open, onOpenChange }: SongFormModalProps) {

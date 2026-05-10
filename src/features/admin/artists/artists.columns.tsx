@@ -2,43 +2,30 @@
 
 import { createColumnHelper } from '@tanstack/react-table';
 import { Badge } from '@/components/ui/Badge';
-import type { AdminSong } from './types';
+import type { AdminArtist } from './artists.types';
 
-const columnHelper = createColumnHelper<AdminSong>();
+const columnHelper = createColumnHelper<AdminArtist>();
 
-export const songColumns = [
-  columnHelper.accessor('title', {
-    header: 'Título',
+export const artistColumns = [
+  columnHelper.accessor('name', {
+    header: 'Nombre',
     enableSorting: true,
   }),
-  columnHelper.accessor((row) => row.artist.name, {
-    id: 'artistName',
-    header: 'Artista',
+  columnHelper.accessor('slug', {
+    header: 'Slug',
     enableSorting: false,
+    cell: (info) => (
+      <code style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-2)' }}>
+        {info.getValue()}
+      </code>
+    ),
   }),
-  columnHelper.accessor('subtitle', {
-    header: 'Subtítulo',
-    enableSorting: false,
-    cell: (info) => {
-      const value = info.getValue();
-      return value ?? '—';
-    },
-  }),
-  columnHelper.accessor('releaseYear', {
-    header: 'Año',
+  columnHelper.accessor('sortName', {
+    header: 'Nombre de orden',
     enableSorting: true,
     cell: (info) => {
       const value = info.getValue();
       return value ?? '—';
-    },
-  }),
-  columnHelper.display({
-    id: 'genres',
-    header: 'Géneros',
-    cell: (info) => {
-      const genres = info.row.original.songGenres;
-      if (!genres.length) return '—';
-      return genres.map((sg) => sg.genre.name).join(', ');
     },
   }),
   columnHelper.accessor('deletedAt', {
@@ -55,6 +42,11 @@ export const songColumns = [
   }),
   columnHelper.accessor('createdAt', {
     header: 'Creado',
+    enableSorting: true,
+    cell: (info) => new Date(info.getValue()).toLocaleDateString('es-AR'),
+  }),
+  columnHelper.accessor('updatedAt', {
+    header: 'Actualizado',
     enableSorting: true,
     cell: (info) => new Date(info.getValue()).toLocaleDateString('es-AR'),
   }),

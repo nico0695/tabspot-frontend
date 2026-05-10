@@ -1,6 +1,6 @@
 import { apiClient } from '@/lib/api/client';
 import type { OffsetPage } from '@/lib/api/types';
-import type { AdminUser, ChangeRoleInput, ChangeStatusInput } from './types';
+import type { AdminUser, ChangeRoleInput, ChangeStatusInput } from './users.types';
 
 const BASE_PATH = '/api/v1/admin/users';
 
