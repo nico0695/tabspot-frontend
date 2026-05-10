@@ -9,7 +9,7 @@ import { Select } from '@/components/ui/Select';
 import { useAdminSongs } from '@/features/admin/songs/songs.hooks';
 import { songColumns } from '@/features/admin/songs/songs.columns';
 import type { AdminSong, SongFormModalMode } from '@/features/admin/songs/songs.types';
-import { useArtistSelectOptions } from '@/features/admin/artists';
+import { useArtistSelectOptions } from '@/features/admin/artists/artists.hooks';
 import { useDebounce } from '@/hooks/useDebounce';
 import { SongFormModal } from './components/SongFormModal';
 import styles from './page.module.css';

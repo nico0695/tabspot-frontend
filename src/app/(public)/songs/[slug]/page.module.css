@@ -1,0 +1,108 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.title {
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-bold);
+}
+
+.artistLink {
+  color: var(--accent-ctrl-strong);
+  text-decoration: none;
+  font-size: var(--fs-lg);
+  transition: var(--t-base);
+}
+
+.artistLink:hover {
+  text-decoration: underline;
+}
+
+.subtitle {
+  color: var(--text-2);
+  font-size: var(--fs-lg);
+}
+
+.releaseYear {
+  color: var(--text-3);
+  font-size: var(--fs-sm);
+}
+
+.genreRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.tabsSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.tabsHeading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+}
+
+.tabsCount {
+  color: var(--text-3);
+  font-weight: var(--fw-regular);
+}
+
+.tabList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.tabItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-2);
+  min-height: 56px;
+  text-decoration: none;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: var(--t-base);
+}
+
+.tabItem:hover {
+  background: var(--surface);
+}
+
+.tabBadges {
+  display: flex;
+  gap: var(--space-1);
+  flex-shrink: 0;
+}
+
+.tabMeta {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-2);
+  font-size: var(--fs-sm);
+  flex-shrink: 0;
+}

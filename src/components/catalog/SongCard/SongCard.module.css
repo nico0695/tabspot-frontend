@@ -1,0 +1,59 @@
+.link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--radius-lg);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--accent-ctrl);
+  outline-offset: 2px;
+  border-radius: var(--radius-lg);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  min-height: 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition:
+    border-color var(--t-base),
+    background-color var(--t-base);
+}
+
+.link:hover .card,
+.link:focus-visible .card {
+  border-color: var(--border-strong);
+  background: var(--surface-2);
+}
+
+.title {
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-base);
+  line-height: var(--lh-tight);
+  color: var(--text);
+  margin: 0;
+}
+
+.artist {
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+  line-height: var(--lh-normal);
+}
+
+.subtitle {
+  font-size: var(--fs-sm);
+  color: var(--text-3);
+  line-height: var(--lh-normal);
+}
+
+.genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
