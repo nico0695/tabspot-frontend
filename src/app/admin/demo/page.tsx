@@ -5,6 +5,7 @@ import * as z from 'zod';
 import { createColumnHelper } from '@tanstack/react-table';
 import { FormBuilder, type FieldConfig } from '@/components/crud/FormBuilder';
 import { DataTable, type ActionConfig, type SortDirection } from '@/components/crud/DataTable';
+import { Pencil, Trash2 } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import styles from './page.module.css';
@@ -149,42 +150,6 @@ const columns = [
   }),
 ];
 
-function EditIcon() {
-  return (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-    </svg>
-  );
-}
-
-function TrashIcon() {
-  return (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polyline points="3 6 5 6 21 6" />
-      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-    </svg>
-  );
-}
-
 export default function AdminDemoPage() {
   const [formLoading, setFormLoading] = useState(false);
   const [formResult, setFormResult] = useState<string | null>(null);
@@ -220,10 +185,10 @@ export default function AdminDemoPage() {
   const paginatedData = filteredData.slice((page - 1) * pageSize, page * pageSize);
 
   const actions: ActionConfig<DemoGenre>[] = [
-    { label: 'Editar', icon: <EditIcon />, onClick: (row) => alert(`Editar: ${row.name}`) },
+    { label: 'Editar', icon: <Pencil size={14} />, onClick: (row) => alert(`Editar: ${row.name}`) },
     {
       label: 'Eliminar',
-      icon: <TrashIcon />,
+      icon: <Trash2 size={14} />,
       onClick: (row) => alert(`Eliminar: ${row.name}`),
       variant: 'danger',
     },

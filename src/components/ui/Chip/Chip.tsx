@@ -1,6 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import { X } from 'lucide-react';
 import styles from './Chip.module.css';
 
 export interface ChipProps {
@@ -10,14 +11,6 @@ export interface ChipProps {
   disabled?: boolean;
   children: ReactNode;
   className?: string;
-}
-
-function RemoveIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-      <path d="M4 4l6 6M10 4l-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  );
 }
 
 export function Chip({ selected, onSelect, onRemove, disabled, children, className }: ChipProps) {
@@ -43,7 +36,7 @@ export function Chip({ selected, onSelect, onRemove, disabled, children, classNa
       }}
       aria-label="Remove"
     >
-      <RemoveIcon />
+      <X size={12} aria-hidden="true" />
     </span>
   ) : null;
 

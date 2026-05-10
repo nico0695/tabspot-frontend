@@ -2,6 +2,7 @@
 
 import { useState, useId } from 'react';
 import * as Popover from '@radix-ui/react-popover';
+import { Search, X } from 'lucide-react';
 import type { SelectOption } from '@/components/ui/Select';
 import styles from './MultiSelect.module.css';
 
@@ -15,42 +16,6 @@ export interface MultiSelectProps {
   loading?: boolean;
   disabled?: boolean;
   className?: string;
-}
-
-function SearchIcon() {
-  return (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="11" cy="11" r="8" />
-      <line x1="21" y1="21" x2="16.65" y2="16.65" />
-    </svg>
-  );
-}
-
-function CloseIcon() {
-  return (
-    <svg
-      width="12"
-      height="12"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="18" y1="6" x2="6" y2="18" />
-      <line x1="6" y1="6" x2="18" y2="18" />
-    </svg>
-  );
 }
 
 export function MultiSelect({
@@ -119,7 +84,7 @@ export function MultiSelect({
                         }}
                         aria-label={`Quitar ${opt.label}`}
                       >
-                        <CloseIcon />
+                        <X size={12} />
                       </button>
                     )}
                   </span>
@@ -133,7 +98,7 @@ export function MultiSelect({
         <Popover.Portal>
           <Popover.Content className={styles.content} sideOffset={4} align="start">
             <div className={styles.searchBox}>
-              <SearchIcon />
+              <Search size={14} />
               <input
                 className={styles.searchInput}
                 placeholder="Buscar..."

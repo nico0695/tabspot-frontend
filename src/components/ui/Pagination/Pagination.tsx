@@ -1,5 +1,6 @@
 'use client';
 
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Select } from '@/components/ui/Select';
 import { IconButton } from '@/components/ui/IconButton';
 import styles from './Pagination.module.css';
@@ -13,40 +14,6 @@ export interface PaginationProps {
   onPageSizeChange?: (size: number) => void;
   pageSizeOptions?: number[];
   className?: string;
-}
-
-function ChevronLeftIcon() {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polyline points="15 18 9 12 15 6" />
-    </svg>
-  );
-}
-
-function ChevronRightIcon() {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polyline points="9 18 15 12 9 6" />
-    </svg>
-  );
 }
 
 export function Pagination({
@@ -84,7 +51,7 @@ export function Pagination({
             disabled={page <= 1}
             onClick={() => onPageChange(page - 1)}
           >
-            <ChevronLeftIcon />
+            <ChevronLeft size={16} />
           </IconButton>
           <span className={styles.pageNum}>
             {page} / {totalPages}
@@ -95,7 +62,7 @@ export function Pagination({
             disabled={page >= totalPages}
             onClick={() => onPageChange(page + 1)}
           >
-            <ChevronRightIcon />
+            <ChevronRight size={16} />
           </IconButton>
         </div>
       </div>

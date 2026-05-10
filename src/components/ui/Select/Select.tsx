@@ -1,6 +1,7 @@
 'use client';
 
 import * as SelectPrimitive from '@radix-ui/react-select';
+import { ChevronDown, Check } from 'lucide-react';
 import styles from './Select.module.css';
 
 export type SelectOption = { value: string; label: string; disabled?: boolean };
@@ -15,40 +16,6 @@ export interface SelectProps {
   error?: string;
   disabled?: boolean;
   className?: string;
-}
-
-function ChevronDownIcon() {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polyline points="6 9 12 15 18 9" />
-    </svg>
-  );
-}
-
-function CheckIcon() {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polyline points="20 6 9 17 4 12" />
-    </svg>
-  );
 }
 
 export function Select({
@@ -78,7 +45,7 @@ export function Select({
         <SelectPrimitive.Trigger className={styles.trigger}>
           <SelectPrimitive.Value placeholder={placeholder} />
           <SelectPrimitive.Icon className={styles.chevron}>
-            <ChevronDownIcon />
+            <ChevronDown size={16} />
           </SelectPrimitive.Icon>
         </SelectPrimitive.Trigger>
         <SelectPrimitive.Portal>
@@ -93,7 +60,7 @@ export function Select({
                 >
                   <SelectPrimitive.ItemText>{opt.label}</SelectPrimitive.ItemText>
                   <SelectPrimitive.ItemIndicator className={styles.indicator}>
-                    <CheckIcon />
+                    <Check size={16} />
                   </SelectPrimitive.ItemIndicator>
                 </SelectPrimitive.Item>
               ))}

@@ -2,6 +2,7 @@
 
 import { type ReactNode } from 'react';
 import { useReactTable, getCoreRowModel, flexRender, type ColumnDef } from '@tanstack/react-table';
+import { ChevronUp, ChevronDown, RotateCw, MoreVertical } from 'lucide-react';
 import { Input } from '@/components/ui/Input';
 import { IconButton } from '@/components/ui/IconButton';
 import { Spinner } from '@/components/ui/Spinner';
@@ -48,60 +49,8 @@ export interface DataTableProps<T> {
 }
 
 function SortIcon({ active, direction }: { active: boolean; direction?: SortDirection }) {
-  return (
-    <svg
-      width="12"
-      height="12"
-      viewBox="0 0 12 12"
-      fill="none"
-      className={active ? styles.sortActive : styles.sortInactive}
-    >
-      <path
-        d={direction === 'desc' ? 'M3 5l3 4 3-4' : 'M3 7l3-4 3 4'}
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function RefreshIcon() {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polyline points="23 4 23 10 17 10" />
-      <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
-    </svg>
-  );
-}
-
-function MoreIcon() {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="12" cy="5" r="1" />
-      <circle cx="12" cy="12" r="1" />
-      <circle cx="12" cy="19" r="1" />
-    </svg>
-  );
+  const Icon = direction === 'desc' ? ChevronDown : ChevronUp;
+  return <Icon size={12} className={active ? styles.sortActive : styles.sortInactive} />;
 }
 
 function ActionsCell<T>({ row, actions }: { row: T; actions: ActionConfig<T>[] }) {
@@ -130,7 +79,7 @@ function ActionsCell<T>({ row, actions }: { row: T; actions: ActionConfig<T>[] }
       <DropdownMenu>
         <DropdownMenu.Trigger>
           <IconButton size="sm" label="Acciones">
-            <MoreIcon />
+            <MoreVertical size={16} />
           </IconButton>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
@@ -208,7 +157,7 @@ export function DataTable<T>({
             {toolbar}
             {onRefresh && (
               <IconButton size="sm" label="Actualizar" onClick={onRefresh}>
-                <RefreshIcon />
+                <RotateCw size={16} />
               </IconButton>
             )}
           </div>

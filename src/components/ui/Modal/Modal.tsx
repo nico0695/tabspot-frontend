@@ -2,6 +2,7 @@
 
 import type { ReactNode } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
+import { X } from 'lucide-react';
 import styles from './Modal.module.css';
 
 export interface ModalProps {
@@ -13,24 +14,6 @@ export interface ModalProps {
   actions?: ReactNode;
   maxWidth?: number;
   className?: string;
-}
-
-function CloseIcon() {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="18" y1="6" x2="6" y2="18" />
-      <line x1="6" y1="6" x2="18" y2="18" />
-    </svg>
-  );
 }
 
 export function Modal({
@@ -58,7 +41,7 @@ export function Modal({
           {actions && <div className={styles.actions}>{actions}</div>}
           <Dialog.Close asChild>
             <button type="button" className={styles.closeBtn} aria-label="Close">
-              <CloseIcon />
+              <X size={16} />
             </button>
           </Dialog.Close>
         </Dialog.Content>
