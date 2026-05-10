@@ -13,6 +13,7 @@ import { FormField } from '@/components/ui/FormField';
 import { Input } from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Textarea';
 import { Select, type SelectOption } from '@/components/ui/Select';
+import { MultiSelect } from '@/components/ui/MultiSelect';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Toggle } from '@/components/ui/Toggle';
 import { Button } from '@/components/ui/Button';
@@ -23,8 +24,10 @@ export type FieldType =
   | 'text'
   | 'email'
   | 'password'
+  | 'number'
   | 'textarea'
   | 'select'
+  | 'multiselect'
   | 'checkbox'
   | 'toggle';
 
@@ -37,6 +40,8 @@ export interface FieldConfig<T extends FieldValues> {
   options?: SelectOption[];
   disabled?: boolean;
   colSpan?: 1 | 2;
+  min?: number;
+  max?: number;
 }
 
 export interface FormBuilderProps<TForm extends FieldValues> {
@@ -106,6 +111,24 @@ export function FormBuilder<TForm extends FieldValues>({
         );
       }
 
+      case 'number':
+        return (
+          <div key={field.name} className={spanCls}>
+            <Input
+              variant="text"
+              label={field.label}
+              placeholder={field.placeholder}
+              error={fieldError}
+              hint={field.hint}
+              disabled={field.disabled || loading}
+              type="number"
+              min={field.min}
+              max={field.max}
+              {...register(field.name, { valueAsNumber: true })}
+            />
+          </div>
+        );
+
       case 'textarea':
         return (
           <div key={field.name} className={spanCls}>
@@ -131,6 +154,27 @@ export function FormBuilder<TForm extends FieldValues>({
                   label={field.label}
                   options={field.options ?? []}
                   value={ctrl.value as string}
+                  onChange={ctrl.onChange}
+                  placeholder={field.placeholder}
+                  error={fieldError}
+                  disabled={field.disabled || loading}
+                />
+              )}
+            />
+          </div>
+        );
+
+      case 'multiselect':
+        return (
+          <div key={field.name} className={spanCls}>
+            <Controller
+              name={field.name}
+              control={control}
+              render={({ field: ctrl }) => (
+                <MultiSelect
+                  label={field.label}
+                  options={field.options ?? []}
+                  value={(ctrl.value as string[]) ?? []}
                   onChange={ctrl.onChange}
                   placeholder={field.placeholder}
                   error={fieldError}
