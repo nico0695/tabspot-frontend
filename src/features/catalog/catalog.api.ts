@@ -6,6 +6,9 @@ import type {
   ArtistOption,
   GenreOption,
   ListSongsParams,
+  CatalogArtist,
+  ArtistDetail,
+  ListArtistsParams,
 } from './catalog.types';
 
 export function listSongs(params?: ListSongsParams): Promise<CursorPage<CatalogSong>> {
@@ -35,4 +38,23 @@ export function listAllArtists(): Promise<ArtistOption[]> {
 
 export function listAllGenres(): Promise<GenreOption[]> {
   return apiClient.get<GenreOption[]>('/api/v1/genres/all');
+}
+
+export function listArtists(params?: ListArtistsParams): Promise<CursorPage<CatalogArtist>> {
+  const searchParams = new URLSearchParams();
+
+  if (params?.cursor) searchParams.set('cursor', params.cursor);
+  if (params?.limit != null) searchParams.set('limit', String(params.limit));
+  if (params?.q) searchParams.set('q', params.q);
+  if (params?.sortBy) searchParams.set('sortBy', params.sortBy);
+  if (params?.order) searchParams.set('order', params.order);
+
+  const qs = searchParams.toString();
+  const path = qs ? `/api/v1/artists?${qs}` : '/api/v1/artists';
+
+  return apiClient.get<CursorPage<CatalogArtist>>(path);
+}
+
+export function getArtistBySlug(slug: string): Promise<ArtistDetail> {
+  return apiClient.get<ArtistDetail>(`/api/v1/artists/${slug}`);
 }

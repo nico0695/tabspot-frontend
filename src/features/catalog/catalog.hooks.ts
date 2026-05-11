@@ -1,10 +1,18 @@
 import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
-import type { ListSongsParams } from './catalog.types';
-import { listSongs, getSongBySlug, listAllArtists, listAllGenres } from './catalog.api';
+import type { ListSongsParams, ListArtistsParams } from './catalog.types';
+import {
+  listSongs,
+  getSongBySlug,
+  listAllArtists,
+  listAllGenres,
+  listArtists,
+  getArtistBySlug,
+} from './catalog.api';
 
 const CATALOG_SONGS_KEY = ['catalog', 'songs'] as const;
 const CATALOG_SONG_DETAIL_KEY = ['catalog', 'song'] as const;
 const CATALOG_ARTISTS_KEY = ['catalog', 'artists'] as const;
+const CATALOG_ARTIST_DETAIL_KEY = ['catalog', 'artist'] as const;
 const CATALOG_GENRES_KEY = ['catalog', 'genres'] as const;
 
 export function useSongs(params?: Omit<ListSongsParams, 'cursor'>) {
@@ -38,5 +46,23 @@ export function useAllGenres() {
     queryKey: [...CATALOG_GENRES_KEY],
     queryFn: listAllGenres,
     staleTime: 5 * 60 * 1000,
+  });
+}
+
+export function useArtists(params?: Omit<ListArtistsParams, 'cursor'>) {
+  return useInfiniteQuery({
+    queryKey: [...CATALOG_ARTISTS_KEY, 'list', params],
+    queryFn: ({ pageParam }) => listArtists({ ...params, cursor: pageParam }),
+    getNextPageParam: (lastPage) =>
+      lastPage.pageInfo.hasMore ? lastPage.pageInfo.nextCursor : undefined,
+    initialPageParam: undefined as string | undefined,
+  });
+}
+
+export function useArtistBySlug(slug: string) {
+  return useQuery({
+    queryKey: [...CATALOG_ARTIST_DETAIL_KEY, slug],
+    queryFn: () => getArtistBySlug(slug),
+    enabled: !!slug,
   });
 }

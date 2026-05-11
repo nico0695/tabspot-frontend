@@ -64,3 +64,35 @@ export interface ListSongsParams {
   sortBy?: 'title' | 'createdAt';
   order?: 'asc' | 'desc';
 }
+
+export interface CatalogArtist {
+  id: string;
+  name: string;
+  slug: string;
+  sortName: string;
+}
+
+export interface ArtistDetail {
+  id: string;
+  name: string;
+  slug: string;
+  sortName: string;
+  songs: ArtistSong[];
+}
+
+export interface ArtistSong {
+  id: string;
+  title: string;
+  slug: string;
+  subtitle: string | null;
+  releaseYear: number | null;
+  publishedTabCount: number;
+}
+
+export interface ListArtistsParams {
+  cursor?: string;
+  limit?: number;
+  q?: string;
+  sortBy?: 'name' | 'createdAt';
+  order?: 'asc' | 'desc';
+}
