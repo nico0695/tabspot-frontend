@@ -4,34 +4,19 @@
   margin: 0 auto;
 }
 
-.header {
+.playgroundHeader {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--space-3);
-  margin-bottom: var(--space-5);
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: color-mix(in oklab, var(--bg) 80%, transparent);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  padding: var(--space-3) 0;
+  margin-bottom: var(--space-4);
 }
 
-.header h1 {
+.playgroundTitle {
   font: var(--fw-bold) var(--fs-xl) var(--font-ui);
   letter-spacing: -0.01em;
   color: var(--text);
   margin: 0;
-}
-
-.tagline {
-  margin: 4px 0 0;
-  font: var(--fw-medium) var(--fs-sm) var(--font-mono);
-  color: var(--text-2);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
 }
 
 .section {
