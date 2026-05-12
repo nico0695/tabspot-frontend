@@ -1,0 +1,39 @@
+.link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--radius-lg);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--accent-ctrl);
+  outline-offset: 2px;
+  border-radius: var(--radius-lg);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  transition:
+    border-color var(--t-base),
+    background-color var(--t-base);
+}
+
+.link:hover .card,
+.link:focus-visible .card {
+  border-color: var(--border-strong);
+  background: var(--surface-2);
+}
+
+.name {
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-base);
+  line-height: var(--lh-tight);
+  color: var(--text);
+  margin: 0;
+}

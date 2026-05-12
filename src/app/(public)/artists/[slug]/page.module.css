@@ -1,0 +1,95 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.title {
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-bold);
+}
+
+.songsSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.songsHeading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+}
+
+.songsCount {
+  color: var(--text-3);
+  font-weight: var(--fw-regular);
+}
+
+.songList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.songItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  min-height: 56px;
+  text-decoration: none;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: var(--t-base);
+}
+
+.songItem:hover {
+  background: var(--surface);
+}
+
+.songInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.songTitle {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-medium);
+}
+
+.songSubtitle {
+  color: var(--text-2);
+  font-size: var(--fs-sm);
+}
+
+.songMeta {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.songYear {
+  color: var(--text-3);
+  font-size: var(--fs-sm);
+}
