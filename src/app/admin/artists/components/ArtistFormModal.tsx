@@ -13,6 +13,7 @@ import {
 } from '@/features/admin/artists/artists.hooks';
 import { artistFormSchema, type ArtistFormData } from '@/features/admin/artists/artists.schema';
 import type { AdminArtist, ArtistFormModalMode } from '@/features/admin/artists/artists.types';
+import { showToast } from '@/components/ui/Toast';
 import { ApiError } from '@/lib/api';
 import { formatDate } from '@/lib/format';
 import { MODAL_TITLES, FORM_FIELDS } from '../artists.constants';
@@ -81,13 +82,13 @@ export function ArtistFormModal({ mode, artist, open, onOpenChange }: ArtistForm
     try {
       setApiError(null);
       await createMutation.mutateAsync(data);
+      showToast.success('Artista creado');
       handleOpenChange(false);
     } catch (err) {
-      if (err instanceof ApiError) {
-        setApiError(err.message);
-      } else {
-        setApiError('Error inesperado al crear el artista');
-      }
+      const message =
+        err instanceof ApiError ? err.message : 'Error inesperado al crear el artista';
+      showToast.error(message);
+      setApiError(message);
     }
   };
 
@@ -96,13 +97,13 @@ export function ArtistFormModal({ mode, artist, open, onOpenChange }: ArtistForm
     try {
       setApiError(null);
       await updateMutation.mutateAsync({ id: artist.id, data });
+      showToast.success('Artista actualizado');
       handleOpenChange(false);
     } catch (err) {
-      if (err instanceof ApiError) {
-        setApiError(err.message);
-      } else {
-        setApiError('Error inesperado al actualizar el artista');
-      }
+      const message =
+        err instanceof ApiError ? err.message : 'Error inesperado al actualizar el artista';
+      showToast.error(message);
+      setApiError(message);
     }
   };
 
@@ -111,13 +112,13 @@ export function ArtistFormModal({ mode, artist, open, onOpenChange }: ArtistForm
     try {
       setApiError(null);
       await deleteMutation.mutateAsync(artist.id);
+      showToast.success('Artista eliminado');
       handleOpenChange(false);
     } catch (err) {
-      if (err instanceof ApiError) {
-        setApiError(err.message);
-      } else {
-        setApiError('Error inesperado al eliminar el artista');
-      }
+      const message =
+        err instanceof ApiError ? err.message : 'Error inesperado al eliminar el artista';
+      showToast.error(message);
+      setApiError(message);
     }
   };
 

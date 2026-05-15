@@ -8,6 +8,7 @@ import { Spinner } from '@/components/ui/Spinner';
 import { Badge } from '@/components/ui/Badge';
 import { useChangeUserRole, useChangeUserStatus } from '@/features/admin/users/users.hooks';
 import type { AdminUser, UserActionModalMode } from '@/features/admin/users/users.types';
+import { showToast } from '@/components/ui/Toast';
 import { ApiError } from '@/lib/api';
 import { formatDate } from '@/lib/format';
 import { MODAL_TITLES, ROLE_OPTIONS, STATUS_OPTIONS } from '../users.constants';
@@ -97,13 +98,12 @@ export function UserActionModal({ mode, user, open, onOpenChange }: UserActionMo
     try {
       setApiError(null);
       await roleMutation.mutateAsync({ id: user.id, data: { role: selectedRole } });
+      showToast.success('Rol actualizado');
       handleOpenChange(false);
     } catch (err) {
-      if (err instanceof ApiError) {
-        setApiError(err.message);
-      } else {
-        setApiError('Error inesperado al cambiar el rol');
-      }
+      const message = err instanceof ApiError ? err.message : 'Error inesperado al cambiar el rol';
+      showToast.error(message);
+      setApiError(message);
     }
   };
 
@@ -115,13 +115,17 @@ export function UserActionModal({ mode, user, open, onOpenChange }: UserActionMo
     try {
       setApiError(null);
       await statusMutation.mutateAsync({ id: user.id, data: { status: selectedStatus } });
+      if (selectedStatus === 'BLOCKED') {
+        showToast.warning('Usuario bloqueado');
+      } else {
+        showToast.success('Usuario activado');
+      }
       handleOpenChange(false);
     } catch (err) {
-      if (err instanceof ApiError) {
-        setApiError(err.message);
-      } else {
-        setApiError('Error inesperado al cambiar el estado');
-      }
+      const message =
+        err instanceof ApiError ? err.message : 'Error inesperado al cambiar el estado';
+      showToast.error(message);
+      setApiError(message);
     }
   };
 

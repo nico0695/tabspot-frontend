@@ -13,6 +13,7 @@ import {
 } from '@/features/admin/genres/genres.hooks';
 import { genreFormSchema, type GenreFormData } from '@/features/admin/genres/genres.schema';
 import type { AdminGenre, GenreFormModalMode } from '@/features/admin/genres/genres.types';
+import { showToast } from '@/components/ui/Toast';
 import { ApiError } from '@/lib/api';
 import { formatDate } from '@/lib/format';
 import { MODAL_TITLES, FORM_FIELDS } from '../genres.constants';
@@ -77,13 +78,12 @@ export function GenreFormModal({ mode, genre, open, onOpenChange }: GenreFormMod
     try {
       setApiError(null);
       await createMutation.mutateAsync(data);
+      showToast.success('Género creado');
       handleOpenChange(false);
     } catch (err) {
-      if (err instanceof ApiError) {
-        setApiError(err.message);
-      } else {
-        setApiError('Error inesperado al crear el género');
-      }
+      const message = err instanceof ApiError ? err.message : 'Error inesperado al crear el género';
+      showToast.error(message);
+      setApiError(message);
     }
   };
 
@@ -92,13 +92,13 @@ export function GenreFormModal({ mode, genre, open, onOpenChange }: GenreFormMod
     try {
       setApiError(null);
       await updateMutation.mutateAsync({ id: genre.id, data });
+      showToast.success('Género actualizado');
       handleOpenChange(false);
     } catch (err) {
-      if (err instanceof ApiError) {
-        setApiError(err.message);
-      } else {
-        setApiError('Error inesperado al actualizar el género');
-      }
+      const message =
+        err instanceof ApiError ? err.message : 'Error inesperado al actualizar el género';
+      showToast.error(message);
+      setApiError(message);
     }
   };
 
@@ -107,13 +107,13 @@ export function GenreFormModal({ mode, genre, open, onOpenChange }: GenreFormMod
     try {
       setApiError(null);
       await deleteMutation.mutateAsync(genre.id);
+      showToast.success('Género eliminado');
       handleOpenChange(false);
     } catch (err) {
-      if (err instanceof ApiError) {
-        setApiError(err.message);
-      } else {
-        setApiError('Error inesperado al eliminar el género');
-      }
+      const message =
+        err instanceof ApiError ? err.message : 'Error inesperado al eliminar el género';
+      showToast.error(message);
+      setApiError(message);
     }
   };
 

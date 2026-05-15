@@ -16,14 +16,16 @@ export const STATUS_OPTIONS = [
   { value: 'BLOCKED', label: 'Bloqueado' },
 ];
 
+export const ALL_VALUE = '__all__';
+
 export const ROLE_FILTER_OPTIONS = [
-  { value: '', label: 'Todos los roles' },
+  { value: ALL_VALUE, label: 'Todos los roles' },
   { value: 'USER', label: 'Usuario' },
   { value: 'ADMIN', label: 'Admin' },
 ];
 
 export const STATUS_FILTER_OPTIONS = [
-  { value: '', label: 'Todos los estados' },
+  { value: ALL_VALUE, label: 'Todos los estados' },
   { value: 'ACTIVE', label: 'Activo' },
   { value: 'BLOCKED', label: 'Bloqueado' },
 ];

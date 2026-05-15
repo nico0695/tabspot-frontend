@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerSchema, type RegisterFormData } from '@/features/auth/schemas';
+import { showToast } from '@/components/ui/Toast';
 import { useAuthStore } from '@/store/useAuthStore';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -34,7 +35,9 @@ export default function RegisterPage() {
     if (result.success) {
       setSuccess(true);
     } else {
-      setSubmitError(result.message ?? 'Error al registrarse');
+      const message = result.message ?? 'Error al registrarse';
+      showToast.error(message);
+      setSubmitError(message);
     }
   };
 

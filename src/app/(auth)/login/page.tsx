@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, type LoginFormData } from '@/features/auth/schemas';
+import { showToast } from '@/components/ui/Toast';
 import { useAuthStore } from '@/store/useAuthStore';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -34,7 +35,9 @@ export default function LoginPage() {
     if (result.success) {
       router.push('/');
     } else {
-      setSubmitError(result.message ?? 'Error al iniciar sesión');
+      const message = result.message ?? 'Error al iniciar sesión';
+      showToast.error(message);
+      setSubmitError(message);
     }
   };
 

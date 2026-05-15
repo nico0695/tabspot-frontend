@@ -11,6 +11,7 @@ import { songFormSchema, type SongFormData } from '@/features/admin/songs/songs.
 import type { AdminSong, SongFormModalMode } from '@/features/admin/songs/songs.types';
 import { useArtistSelectOptions } from '@/features/admin/artists/artists.hooks';
 import { useGenreSelectOptions } from '@/features/admin/genres/genres.hooks';
+import { showToast } from '@/components/ui/Toast';
 import { ApiError } from '@/lib/api';
 import { formatDate } from '@/lib/format';
 import { cleanSongData } from '@/features/admin/songs/songs.utils';
@@ -144,13 +145,13 @@ export function SongFormModal({ mode, song, open, onOpenChange }: SongFormModalP
     try {
       setApiError(null);
       await createMutation.mutateAsync(cleanSongData(data));
+      showToast.success('Canción creada');
       handleOpenChange(false);
     } catch (err) {
-      if (err instanceof ApiError) {
-        setApiError(err.message);
-      } else {
-        setApiError('Error inesperado al crear la canción');
-      }
+      const message =
+        err instanceof ApiError ? err.message : 'Error inesperado al crear la canción';
+      showToast.error(message);
+      setApiError(message);
     }
   };
 
@@ -168,13 +169,13 @@ export function SongFormModal({ mode, song, open, onOpenChange }: SongFormModalP
           genreIds: cleaned.genreIds,
         },
       });
+      showToast.success('Canción actualizada');
       handleOpenChange(false);
     } catch (err) {
-      if (err instanceof ApiError) {
-        setApiError(err.message);
-      } else {
-        setApiError('Error inesperado al actualizar la canción');
-      }
+      const message =
+        err instanceof ApiError ? err.message : 'Error inesperado al actualizar la canción';
+      showToast.error(message);
+      setApiError(message);
     }
   };
 
@@ -183,13 +184,13 @@ export function SongFormModal({ mode, song, open, onOpenChange }: SongFormModalP
     try {
       setApiError(null);
       await deleteMutation.mutateAsync(song.id);
+      showToast.success('Canción eliminada');
       handleOpenChange(false);
     } catch (err) {
-      if (err instanceof ApiError) {
-        setApiError(err.message);
-      } else {
-        setApiError('Error inesperado al eliminar la canción');
-      }
+      const message =
+        err instanceof ApiError ? err.message : 'Error inesperado al eliminar la canción';
+      showToast.error(message);
+      setApiError(message);
     }
   };
 

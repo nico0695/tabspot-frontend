@@ -9,13 +9,13 @@ import { userColumns } from '@/features/admin/users/users.columns';
 import type { AdminUser, UserActionModalMode } from '@/features/admin/users/users.types';
 import { useAuthStore } from '@/store/useAuthStore';
 import { UserActionModal } from './components/UserActionModal';
-import { ROLE_FILTER_OPTIONS, STATUS_FILTER_OPTIONS } from './users.constants';
+import { ROLE_FILTER_OPTIONS, STATUS_FILTER_OPTIONS, ALL_VALUE } from './users.constants';
 import styles from './page.module.css';
 
 export default function AdminUsersPage() {
   const [page, setPage] = useState(1);
-  const [roleFilter, setRoleFilter] = useState('');
-  const [statusFilter, setStatusFilter] = useState('');
+  const [roleFilter, setRoleFilter] = useState(ALL_VALUE);
+  const [statusFilter, setStatusFilter] = useState(ALL_VALUE);
   const [modalState, setModalState] = useState<{
     mode: UserActionModalMode;
     user: AdminUser;
@@ -36,8 +36,8 @@ export default function AdminUsersPage() {
   const query = useAdminUsers({
     page,
     pageSize: 20,
-    role: roleFilter || undefined,
-    status: statusFilter || undefined,
+    role: roleFilter === ALL_VALUE ? undefined : roleFilter || undefined,
+    status: statusFilter === ALL_VALUE ? undefined : statusFilter || undefined,
   });
 
   const isSelf = (row: AdminUser) => currentUser?.email === row.email;
