@@ -1,0 +1,179 @@
+.main {
+  padding: var(--space-4);
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.playgroundHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.playgroundTitle {
+  font: var(--fw-bold) var(--fs-xl) var(--font-ui);
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin: 0;
+}
+
+.section {
+  padding: var(--space-4) 0;
+  border-top: 1px dashed var(--border);
+}
+
+.section:first-of-type {
+  border-top: 0;
+}
+
+.sectionHeading {
+  font: var(--fw-semibold) var(--fs-lg) var(--font-ui);
+  color: var(--text);
+  margin: 0 0 var(--space-3);
+}
+
+.typoStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.typoStack h1 {
+  font: var(--fw-bold) var(--fs-xl) var(--font-ui);
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin: 0;
+}
+
+.typoStack h2 {
+  font: var(--fw-semibold) var(--fs-lg) var(--font-ui);
+  color: var(--text);
+  margin: 0;
+}
+
+.typoStack p {
+  font: var(--fw-regular) var(--fs-base) var(--font-ui);
+  line-height: var(--lh-normal);
+  color: var(--text);
+  margin: 0;
+}
+
+.typoStack small {
+  font: var(--fw-medium) var(--fs-sm) var(--font-ui);
+  letter-spacing: 0.01em;
+  color: var(--text-2);
+}
+
+.codeBlock {
+  margin: 0;
+  padding: var(--space-2);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font: var(--fw-regular) var(--fs-sm) var(--font-mono);
+  line-height: var(--lh-relaxed);
+  color: var(--text);
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.swatchGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-2);
+}
+
+.swatch {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 14px;
+  align-items: center;
+  padding: 10px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.swatch strong {
+  display: block;
+  font: var(--fw-semibold) var(--fs-sm) var(--font-ui);
+  color: var(--text);
+}
+
+.swatch code {
+  display: block;
+  margin-top: 2px;
+  font: 400 11px var(--font-mono);
+  color: var(--text-2);
+}
+
+.swatchChip {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+}
+
+.buttonGrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.btnRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.btnRowLabel {
+  min-width: 140px;
+  font: var(--fw-medium) var(--fs-xs) var(--font-mono);
+  color: var(--text-2);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ----- New demo sections ----- */
+
+.componentRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.inputGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-2);
+}
+
+.formControlsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.controlStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.subsectionLabel {
+  font: var(--fw-medium) var(--fs-xs) var(--font-mono);
+  color: var(--text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 var(--space-2);
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
