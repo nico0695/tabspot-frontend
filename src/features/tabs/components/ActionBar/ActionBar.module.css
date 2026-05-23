@@ -1,0 +1,110 @@
+.panel {
+  position: sticky;
+  top: 45px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  background: color-mix(in oklab, var(--surface) 90%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.label {
+  display: none;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  width: 100%;
+  justify-content: center;
+}
+
+.stepperKey {
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  min-width: var(--space-5);
+  text-align: center;
+}
+
+.stepperBtn {
+  background: var(--accent-ctrl);
+  color: var(--text);
+  border: none;
+  border-radius: var(--radius-sm);
+  min-width: 36px;
+  min-height: 36px;
+  cursor: pointer;
+  transition: background var(--t-base) var(--ease-out);
+}
+
+.stepperBtn:hover {
+  background: var(--accent-ctrl-strong);
+}
+
+.resetBtn {
+  background: transparent;
+  color: var(--text-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  min-width: 32px;
+  min-height: 32px;
+  cursor: pointer;
+  transition:
+    color var(--t-base) var(--ease-out),
+    border-color var(--t-base) var(--ease-out);
+}
+
+.resetBtn:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+/* Desktop: side panel alongside score */
+@media (min-width: 768px) {
+  .panel {
+    position: sticky;
+    top: 68px;
+    align-self: flex-start;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-2);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    width: auto;
+  }
+
+  .label {
+    display: block;
+    color: var(--text-3);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .stepper {
+    flex-direction: column;
+    width: auto;
+    justify-content: flex-start;
+  }
+
+  .stepperBtn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .resetBtn {
+    align-self: center;
+  }
+}

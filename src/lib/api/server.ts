@@ -4,6 +4,7 @@ import { cache } from 'react';
 import { env } from '@/lib/env';
 import { ApiError } from './types';
 import type { SongDetail, ArtistDetail } from '@/features/catalog/catalog.types';
+import type { TabDetail } from '@/features/tabs/tabs.types';
 
 const API_BASE = env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -38,4 +39,8 @@ export const fetchSongBySlug = cache(
 export const fetchArtistBySlug = cache(
   (slug: string): Promise<ArtistDetail | null> =>
     serverFetch<ArtistDetail>(`/api/v1/artists/${slug}`),
+);
+
+export const fetchTabById = cache(
+  (id: string): Promise<TabDetail | null> => serverFetch<TabDetail>(`/api/v1/tabs/${id}`),
 );

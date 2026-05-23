@@ -1,0 +1,80 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--space-2);
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--text-2);
+  text-decoration: none;
+  font-size: var(--fs-sm);
+  min-height: 56px;
+  transition: color var(--t-base) var(--ease-out);
+}
+
+.backLink:hover {
+  color: var(--text);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.title {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+}
+
+.artistLink {
+  color: var(--accent-ctrl-strong);
+  text-decoration: none;
+  font-size: var(--fs-lg);
+  transition: color var(--t-base) var(--ease-out);
+}
+
+.artistLink:hover {
+  text-decoration: underline;
+}
+
+.badgeRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.meta {
+  color: var(--text-2);
+  font-size: var(--fs-sm);
+  display: flex;
+  gap: var(--space-2);
+}
+
+.scoreArea {
+  display: flex;
+  flex-direction: column;
+}
+
+.scoreContainer {
+  min-height: 0;
+}
+
+@media (min-width: 768px) {
+  .scoreArea {
+    flex-direction: row-reverse;
+    gap: var(--space-3);
+    align-items: flex-start;
+  }
+
+  .scoreContainer {
+    flex: 1;
+    min-width: 0;
+  }
+}
