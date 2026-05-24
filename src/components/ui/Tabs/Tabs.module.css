@@ -1,0 +1,53 @@
+.root {
+  display: flex;
+  flex-direction: column;
+}
+
+.list {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  gap: 0;
+}
+
+.trigger {
+  all: unset;
+  color: var(--text-2);
+  padding: 10px 20px;
+  font: var(--fw-medium) var(--fs-sm) var(--font-ui);
+  cursor: pointer;
+  transition: color var(--t-base) var(--ease-out);
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  margin-bottom: -1px;
+}
+
+.trigger:hover:not([data-disabled]) {
+  color: var(--text);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--accent-ctrl);
+  outline-offset: -2px;
+}
+
+.trigger[data-state='active'] {
+  color: var(--accent-ctrl-strong);
+  background: var(--accent-ctrl-soft);
+  border-color: var(--accent-ctrl);
+  border-bottom-color: var(--surface);
+}
+
+.trigger[data-disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.content {
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  background: var(--surface);
+  padding: var(--space-2);
+  outline: none;
+}
