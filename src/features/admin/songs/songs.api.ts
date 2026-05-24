@@ -1,8 +1,9 @@
 import { apiClient } from '@/lib/api/client';
 import type { OffsetPage } from '@/lib/api/types';
-import type { AdminSong, CreateSongInput, UpdateSongInput } from './songs.types';
+import type { AdminSong, CreateSongInput, SongSelectItem, UpdateSongInput } from './songs.types';
 
 const BASE_PATH = '/api/v1/admin/songs';
+const ALL_SONGS_PATH = '/api/v1/songs/all';
 
 export interface ListAdminSongsParams {
   page?: number;
@@ -41,4 +42,8 @@ export function updateSong(id: string, data: UpdateSongInput): Promise<AdminSong
 
 export function deleteSong(id: string): Promise<void> {
   return apiClient.delete(`${BASE_PATH}/${id}`);
+}
+
+export function listAllSongs(): Promise<SongSelectItem[]> {
+  return apiClient.get<SongSelectItem[]>(ALL_SONGS_PATH);
 }

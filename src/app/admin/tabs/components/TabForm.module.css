@@ -1,0 +1,51 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.metadataSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.metadataSection > :first-child {
+  grid-column: 1 / -1;
+}
+
+.tabPanel {
+  max-height: 55vh;
+  overflow-y: auto;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--border);
+}
+
+.error {
+  padding: var(--space-2);
+  background: color-mix(in oklab, var(--error) 10%, transparent);
+  border: 1px solid color-mix(in oklab, var(--error) 30%, transparent);
+  border-radius: var(--radius-md);
+  color: var(--error);
+  font-size: var(--fs-sm);
+  margin-bottom: var(--space-2);
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+}
+
+@media (max-width: 768px) {
+  .metadataSection {
+    grid-template-columns: 1fr;
+  }
+}

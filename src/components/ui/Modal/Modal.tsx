@@ -32,7 +32,11 @@ export function Modal({
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className={styles.overlay} />
-        <Dialog.Content className={contentCls} style={{ maxWidth }}>
+        <Dialog.Content
+          className={contentCls}
+          style={{ maxWidth }}
+          {...(!description && { 'aria-describedby': undefined })}
+        >
           <Dialog.Title className={styles.title}>{title}</Dialog.Title>
           {description && (
             <Dialog.Description className={styles.description}>{description}</Dialog.Description>

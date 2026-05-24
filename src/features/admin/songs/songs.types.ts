@@ -28,3 +28,8 @@ export interface UpdateSongInput {
   releaseYear?: number | null;
   genreIds?: string[];
 }
+
+export interface SongSelectItem {
+  id: string;
+  title: string;
+}
