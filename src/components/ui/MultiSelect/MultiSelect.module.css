@@ -96,7 +96,7 @@
   min-width: 240px;
   max-width: 400px;
   width: var(--radix-popover-trigger-width);
-  z-index: 50;
+  z-index: var(--z-modal-dropdown);
   animation: fadeIn var(--t-micro) forwards;
 }
 

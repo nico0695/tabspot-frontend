@@ -5,7 +5,9 @@
   padding: 4px;
   box-shadow: var(--shadow-2);
   min-width: 160px;
-  z-index: 50;
+  z-index: var(--z-modal-dropdown);
+  max-height: min(300px, var(--radix-dropdown-menu-content-available-height));
+  overflow-y: auto;
   animation: fadeIn var(--t-micro) forwards;
   transform-origin: var(--radix-dropdown-menu-content-transform-origin);
 }

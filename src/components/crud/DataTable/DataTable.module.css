@@ -137,5 +137,5 @@
   justify-content: center;
   background: color-mix(in oklab, var(--bg) 60%, transparent);
   border-radius: var(--radius-md);
-  z-index: 1;
+  z-index: var(--z-local);
 }
