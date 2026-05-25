@@ -22,9 +22,18 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const [hydrated, setHydrated] = useState(false);
 
-  const onHydrated = useCallback(() => {
+  const user = useAuthStore((s) => s.user);
+  const validateSession = useAuthStore((s) => s.validateSession);
+  const logoutSupabase = useAuthStore((s) => s.logoutSupabase);
+
+  const onHydrated = useCallback(async () => {
+    const valid = await validateSession();
+    if (!valid || useAuthStore.getState().user?.role !== 'ADMIN') {
+      router.push('/');
+      return;
+    }
     setHydrated(true);
-  }, []);
+  }, [validateSession, router]);
 
   useEffect(() => {
     const unsub = useAuthStore.persist.onFinishHydration(onHydrated);
@@ -32,26 +41,12 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     return unsub;
   }, [onHydrated]);
 
-  const user = useAuthStore((s) => s.user);
-  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  const logoutSupabase = useAuthStore((s) => s.logoutSupabase);
-
   const handleLogout = useCallback(async () => {
     await logoutSupabase();
     router.push('/login');
   }, [logoutSupabase, router]);
 
-  useEffect(() => {
-    if (!hydrated) return;
-
-    if (!isAuthenticated || user?.role !== 'ADMIN') {
-      router.push('/');
-    }
-  }, [hydrated, isAuthenticated, user, router]);
-
-  if (!hydrated || !isAuthenticated || user?.role !== 'ADMIN') {
-    return null;
-  }
+  if (!hydrated) return null;
 
   return (
     <div className={styles.layout}>
