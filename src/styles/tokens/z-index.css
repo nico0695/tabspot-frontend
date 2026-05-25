@@ -1,0 +1,11 @@
+:root {
+  --z-local: 1;
+  --z-sticky: 10;
+  --z-navbar: 100;
+  --z-dropdown: 200;
+  --z-modal-overlay: 300;
+  --z-modal-content: 301;
+  --z-modal-dropdown: 400;
+  --z-toast: 500;
+  --z-tooltip: 600;
+}

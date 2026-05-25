@@ -1,7 +1,7 @@
 .panel {
   position: sticky;
   top: 45px;
-  z-index: 10;
+  z-index: var(--z-sticky);
   display: flex;
   align-items: center;
   gap: var(--space-2);

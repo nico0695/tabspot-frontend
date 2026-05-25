@@ -147,21 +147,7 @@ export default function HomePage() {
 
   return (
     <div ref={containerRef}>
-      <nav className={styles.nav}>
-        <Link href="/" className={styles.logo}>
-          TabSpot
-        </Link>
-        <div className={styles.navLinks}>
-          <Link href="/login" className={styles.loginLink}>
-            Log In
-          </Link>
-          <Link href="/register" className={styles.signupLink}>
-            Sign Up
-          </Link>
-        </div>
-      </nav>
-
-      <section className={styles.hero}>
+      <section className={`${styles.hero} ${styles.heroOffset}`}>
         <span className={`${styles.floatingNote} ${styles.floatingNote1}`} aria-hidden="true">
           &#9834;
         </span>
