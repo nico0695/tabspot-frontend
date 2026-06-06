@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/client';
 import { env } from '@/lib/env';
-import { ApiError } from './types';
+import { ApiError } from './errors';
 
 const API_BASE = env.NEXT_PUBLIC_API_BASE_URL;
 

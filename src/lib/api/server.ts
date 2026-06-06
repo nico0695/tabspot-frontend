@@ -2,7 +2,7 @@ import 'server-only';
 
 import { cache } from 'react';
 import { env } from '@/lib/env';
-import { ApiError } from './types';
+import { ApiError } from './errors';
 import type { SongDetail, ArtistDetail } from '@/features/catalog/catalog.types';
 import type { TabDetail } from '@/features/tabs/tabs.types';
 

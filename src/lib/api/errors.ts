@@ -1,3 +1,5 @@
+import type { FieldError } from './types';
+
 const ERROR_MESSAGES: Record<string, string> = {
   INVALID_TOKEN: 'Tu sesión es inválida. Intentá iniciar sesión de nuevo.',
   TOKEN_EXPIRED: 'Tu sesión expiró. Iniciá sesión de nuevo.',
@@ -12,12 +14,14 @@ const ERROR_MESSAGES: Record<string, string> = {
 export class ApiError extends Error {
   readonly status: number;
   readonly code: string;
+  readonly fields?: FieldError[];
 
-  constructor(status: number, code: string, message: string) {
+  constructor(status: number, code: string, message: string, fields?: FieldError[]) {
     super(message);
     this.name = 'ApiError';
     this.status = status;
     this.code = code;
+    this.fields = fields;
   }
 
   get userMessage(): string {

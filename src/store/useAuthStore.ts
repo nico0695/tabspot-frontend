@@ -5,7 +5,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 import type { User } from '@/features/auth/types';
 import { createClient } from '@/lib/supabase/client';
 import { fetchWithAuth } from '@/lib/api/fetcher';
-import { ApiError } from '@/lib/api/errors';
+import { ApiError } from '@/lib/api';
 
 interface AuthState {
   user: User | null;
