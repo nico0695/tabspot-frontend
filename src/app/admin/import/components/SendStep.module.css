@@ -1,0 +1,27 @@
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.heading {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+  color: var(--text);
+}
+
+.readyCount {
+  font-size: var(--fs-base);
+  color: var(--text);
+}
+
+.sendButton {
+  min-height: 56px;
+  min-width: 120px;
+}
+
+.note {
+  font-size: var(--fs-sm);
+  color: var(--text-3);
+}

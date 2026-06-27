@@ -14,6 +14,7 @@ const NAV_LINKS = [
   { href: '/admin/artists', label: 'Artistas' },
   { href: '/admin/songs', label: 'Canciones' },
   { href: '/admin/tabs', label: 'Tabs' },
+  { href: '/admin/import', label: 'Importar' },
   { href: '/admin/users', label: 'Usuarios' },
 ];
 
