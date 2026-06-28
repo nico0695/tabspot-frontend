@@ -1,0 +1,253 @@
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Header */
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.heading {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+  color: var(--text);
+}
+
+.note {
+  font-size: var(--fs-sm);
+  color: var(--text-3);
+}
+
+/* Drag-and-drop zone */
+.dropZone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 160px;
+  padding: var(--space-4);
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--text-3);
+  cursor: default;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+  text-align: center;
+}
+
+.dropZoneActive {
+  border-color: var(--accent-ctrl);
+  background: var(--accent-ctrl-soft);
+  color: var(--text);
+}
+
+.dropZoneIcon {
+  color: var(--text-3);
+  flex-shrink: 0;
+}
+
+.dropZoneActive .dropZoneIcon {
+  color: var(--accent-ctrl);
+}
+
+.dropZoneTitle {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-medium);
+  color: var(--text-2);
+}
+
+.dropZoneActive .dropZoneTitle {
+  color: var(--text);
+}
+
+.dropZoneSub {
+  font-size: var(--fs-sm);
+  color: var(--text-3);
+}
+
+/* Picker actions row */
+.pickerRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.pickerBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 56px;
+  min-width: 56px;
+}
+
+/* Hidden file inputs */
+.hiddenInput {
+  display: none;
+}
+
+/* Summary bar */
+.summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 48px;
+  padding: 0 var(--space-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+}
+
+.summaryStat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.summaryCount {
+  font-weight: var(--fw-semibold);
+  color: var(--text);
+}
+
+.summaryDivider {
+  width: 1px;
+  height: 20px;
+  background: var(--border-strong);
+}
+
+/* Over-limit warning banner (non-blocking) */
+.warningBanner {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border: 1px solid var(--warning);
+  border-radius: var(--radius-md);
+  background: rgba(245, 158, 11, 0.08);
+  color: var(--text);
+  font-size: var(--fs-sm);
+  align-items: flex-start;
+}
+
+.warningIcon {
+  color: var(--warning);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.warningContent {
+  flex: 1;
+}
+
+.warningTitle {
+  font-weight: var(--fw-semibold);
+  color: var(--warning);
+  margin-bottom: 4px;
+}
+
+.warningList {
+  margin: 0;
+  padding: 0 0 0 var(--space-2);
+  color: var(--text-2);
+}
+
+/* Rejected files panel */
+.rejectedPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border: 1px solid var(--error);
+  border-radius: var(--radius-md);
+  background: rgba(239, 68, 68, 0.06);
+}
+
+.rejectedHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.rejectedTitle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--error);
+}
+
+.dismissBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  min-height: 32px;
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-3);
+  cursor: pointer;
+  padding: 4px;
+  transition:
+    color 0.12s ease,
+    background 0.12s ease;
+}
+
+.dismissBtn:hover {
+  color: var(--text);
+  background: var(--surface);
+}
+
+.rejectedList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rejectedItem {
+  font-size: var(--fs-xs);
+  color: var(--text-2);
+  display: flex;
+  gap: 6px;
+}
+
+.rejectedFileName {
+  color: var(--text);
+  font-weight: var(--fw-medium);
+  font-family: var(--font-mono, monospace);
+}
+
+.rejectedReason {
+  color: var(--text-3);
+}
+
+/* Empty state */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  color: var(--text-3);
+  font-size: var(--fs-sm);
+  text-align: center;
+}
+
+.emptyIcon {
+  color: var(--text-3);
+  opacity: 0.5;
+}

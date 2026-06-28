@@ -5,6 +5,7 @@ import { IMPORT_STEPS } from '@/features/admin/import/import.constants';
 import type { ImportStep } from '@/features/admin/import/import.types';
 import { useImportWizardStore } from '@/features/admin/import/import.store';
 import { ArtistScopeStep } from './components/ArtistScopeStep';
+import { IntakeStep } from './components/IntakeStep';
 import { SendStep } from './components/SendStep';
 import styles from './page.module.css';
 
@@ -84,6 +85,8 @@ export default function AdminImportPage() {
       <section className={styles.stepBody}>
         {step === 'artist' ? (
           <ArtistScopeStep />
+        ) : step === 'intake' ? (
+          <IntakeStep />
         ) : step === 'send' ? (
           <SendStep />
         ) : (
