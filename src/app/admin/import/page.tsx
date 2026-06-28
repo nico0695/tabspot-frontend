@@ -6,6 +6,7 @@ import type { ImportStep } from '@/features/admin/import/import.types';
 import { useImportWizardStore } from '@/features/admin/import/import.store';
 import { ArtistScopeStep } from './components/ArtistScopeStep';
 import { IntakeStep } from './components/IntakeStep';
+import { ReviewStep } from './components/ReviewStep';
 import { SendStep } from './components/SendStep';
 import styles from './page.module.css';
 
@@ -87,6 +88,8 @@ export default function AdminImportPage() {
           <ArtistScopeStep />
         ) : step === 'intake' ? (
           <IntakeStep />
+        ) : step === 'review' ? (
+          <ReviewStep />
         ) : step === 'send' ? (
           <SendStep />
         ) : (
