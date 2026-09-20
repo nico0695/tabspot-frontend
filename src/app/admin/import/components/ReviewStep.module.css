@@ -1,24 +1,7 @@
-.step {
+.body {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-}
-
-.intro {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-}
-
-.heading {
-  font-size: var(--fs-lg);
-  font-weight: var(--fw-semibold);
-  color: var(--text);
-}
-
-.note {
-  font-size: var(--fs-sm);
-  color: var(--text-3);
 }
 
 .counter {
@@ -28,7 +11,7 @@
   padding: var(--space-2) var(--space-3);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  background: var(--surface);
+  background: var(--surface-2);
   font-size: var(--fs-sm);
   color: var(--text-2);
 }
@@ -178,127 +161,77 @@
   border-left: 3px solid var(--accent-ctrl);
 }
 
+/* version sub-form clusters (R-CLUSTER) */
+.cluster {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  height: 100%;
+}
+
+.clusterIdentity {
+  background: color-mix(in oklab, var(--accent-ctrl) 6%, transparent);
+}
+
+.clusterClassify {
+  background: color-mix(in oklab, var(--accent-chord) 6%, transparent);
+}
+
+.clusterReview {
+  background: var(--surface-2);
+}
+
 .vTitleCell {
-  padding: var(--space-2) var(--space-3);
-  vertical-align: middle;
+  padding: var(--space-1) var(--space-2);
+  vertical-align: top;
   min-width: 200px;
+}
+
+.vMetaCell {
+  padding: var(--space-1) var(--space-2);
+  vertical-align: top;
+  min-width: 200px;
+}
+
+.vStatusCell {
+  padding: var(--space-1) var(--space-2);
+  vertical-align: top;
+  min-width: 220px;
 }
 
 .versionLabel {
   display: block;
   font-size: var(--fs-xs);
   font-weight: var(--fw-semibold);
-  color: var(--text-3);
-  margin-bottom: 4px;
+  color: var(--text-2);
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
 
 .titleInput {
   width: 100%;
-  min-height: 40px;
-  padding: 0 var(--space-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--surface-2);
-  color: var(--text);
-  font-size: var(--fs-sm);
-  font-family: inherit;
-  transition:
-    border-color 0.12s ease,
-    background 0.12s ease;
-  box-sizing: border-box;
 }
 
-.titleInput:hover {
-  border-color: var(--border-strong);
-}
-
-.titleInput:focus {
-  outline: none;
-  border-color: var(--accent-ctrl);
-  background: var(--surface);
-}
-
-.vMetaCell {
-  padding: var(--space-2) var(--space-3);
-  vertical-align: middle;
-  min-width: 220px;
-}
-
-.metaLabel {
-  display: block;
-  font-size: var(--fs-xs);
-  color: var(--text-3);
-  margin-bottom: var(--space-1);
-}
-
+/* compact override to match Input size="compact" (38px); no spacing token at this value */
 .inlineSelect {
-  min-height: 40px;
-  margin-bottom: var(--space-1);
+  min-height: 38px;
 }
 
-.inlineSelect:last-child {
-  margin-bottom: 0;
+.statusSegmented {
+  width: 100%;
 }
 
-.vStatusCell {
-  padding: var(--space-2) var(--space-3);
-  vertical-align: middle;
-  min-width: 200px;
-}
-
-.targetStatusLabel {
-  display: block;
-  font-size: var(--fs-xs);
-  color: var(--text-3);
-  margin-top: var(--space-1);
-}
-
-.warningsCount {
-  display: inline-flex;
+.statusMeta {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 4px;
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-medium);
-  color: var(--warning);
-  margin-top: var(--space-1);
-}
-
-/* min 56×56 px per Stage Focus touch-target rule */
-.previewBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 56px;
-  min-height: 56px;
-  margin-top: var(--space-1);
-  padding: 0;
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  color: var(--text-3);
-  cursor: pointer;
-  transition:
-    color 0.12s ease,
-    border-color 0.12s ease,
-    background 0.12s ease;
-}
-
-.previewBtn:hover {
-  color: var(--text);
-  border-color: var(--border-strong);
-  background: var(--surface-2);
-}
-
-.previewBtn:focus-visible {
-  outline: 2px solid var(--accent-ctrl);
-  outline-offset: 2px;
+  gap: var(--space-1);
 }
 
 .loadingState,
-.errorState,
-.emptyState {
+.errorState {
   display: flex;
   flex-direction: column;
   align-items: center;

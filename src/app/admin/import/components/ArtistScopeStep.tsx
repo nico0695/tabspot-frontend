@@ -1,8 +1,10 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { Plus, User } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { Badge } from '@/components/ui/Badge';
+import { Card } from '@/components/ui/Card';
 import { Select, type SelectOption } from '@/components/ui/Select';
 import { Modal } from '@/components/ui/Modal';
 import { FormBuilder, type FieldConfig } from '@/components/crud/FormBuilder';
@@ -77,88 +79,86 @@ export function ArtistScopeStep() {
   };
 
   return (
-    <div className={styles.step}>
-      <header className={styles.intro}>
-        <h2 className={styles.heading}>Artista de la importación</h2>
-        <p className={styles.note}>
-          Todas las versiones de esta importación se asignarán a este artista.
-        </p>
-      </header>
+    <Card>
+      <Card.Header>
+        <h3>Artista de la importación</h3>
+      </Card.Header>
+      <Card.Description>
+        Todas las versiones de esta importación se asignarán a este artista.
+      </Card.Description>
+      <Card.Body className={styles.body}>
+        <section className={styles.section}>
+          <span className={styles.sectionLabel}>Seleccionar artista existente</span>
+          <div className={styles.artistRow}>
+            <Select
+              className={styles.artistSelect}
+              options={artistOptions}
+              value={artist?.id}
+              onChange={handleSelectArtist}
+              placeholder={optionsQuery.isLoading ? 'Cargando artistas…' : 'Elegí un artista'}
+              disabled={optionsQuery.isLoading}
+            />
+            <Button
+              variant="secondary"
+              className={styles.createBtn}
+              onClick={() => setCreateOpen(true)}
+            >
+              <Plus size={18} />
+              Crear artista
+            </Button>
+          </div>
+          {optionsQuery.isError && (
+            <p className={styles.errorText} role="alert">
+              No se pudieron cargar los artistas.
+            </p>
+          )}
+          <div className={styles.selectedRow} aria-live="polite">
+            <span className={styles.sectionLabel}>Artista:</span>
+            {artist ? (
+              <Badge variant="published">{artist.name}</Badge>
+            ) : (
+              <Badge variant="default">Sin seleccionar</Badge>
+            )}
+          </div>
+        </section>
 
-      <section className={styles.section}>
-        <span className={styles.sectionLabel}>Seleccionar artista existente</span>
-        <div className={styles.artistRow}>
-          <Select
-            className={styles.artistSelect}
-            options={artistOptions}
-            value={artist?.id}
-            onChange={handleSelectArtist}
-            placeholder={optionsQuery.isLoading ? 'Cargando artistas…' : 'Elegí un artista'}
-            disabled={optionsQuery.isLoading}
-          />
-          <Button
-            variant="secondary"
-            className={styles.createBtn}
-            onClick={() => setCreateOpen(true)}
-          >
-            <Plus size={18} />
-            Crear artista
-          </Button>
-        </div>
-        {optionsQuery.isError && (
-          <p className={styles.errorText} role="alert">
-            No se pudieron cargar los artistas.
+        <section className={styles.section}>
+          <span className={styles.sectionLabel}>Valores por defecto de la importación</span>
+          <p className={styles.note}>
+            Se aplicarán a cada versión; podrás ajustarlos por versión en la revisión.
           </p>
-        )}
-      </section>
+          <div className={styles.defaultsGrid}>
+            <Select
+              label="Estado"
+              options={statusOptions}
+              value={defaults.status}
+              onChange={(value) => setDefaults({ status: value as TabStatus })}
+            />
+            <Select
+              label="Dificultad"
+              options={difficultyOptions}
+              value={defaults.difficulty}
+              onChange={(value) => setDefaults({ difficulty: value as Difficulty })}
+            />
+            <Select
+              label="Instrumento"
+              options={instrumentOptions}
+              value={defaults.instrument}
+              onChange={(value) => setDefaults({ instrument: value as Instrument })}
+            />
+          </div>
+        </section>
 
-      <div className={artist ? styles.selectedActive : styles.selected} aria-live="polite">
-        <User size={18} className={styles.selectedIcon} />
-        {artist ? (
-          <span className={styles.selectedText}>
-            Artista seleccionado: <strong>{artist.name}</strong>
-          </span>
-        ) : (
-          <span className={styles.selectedText}>Todavía no seleccionaste un artista.</span>
-        )}
-      </div>
-
-      <section className={styles.section}>
-        <span className={styles.sectionLabel}>Valores por defecto de la importación</span>
-        <p className={styles.note}>
-          Se aplicarán a cada versión; podrás ajustarlos por versión en la revisión.
-        </p>
-        <div className={styles.defaultsGrid}>
-          <Select
-            label="Estado"
-            options={statusOptions}
-            value={defaults.status}
-            onChange={(value) => setDefaults({ status: value as TabStatus })}
+        <Modal open={createOpen} onOpenChange={setCreateOpen} title="Crear artista" maxWidth={480}>
+          <FormBuilder<ArtistFormData>
+            schema={artistFormSchema}
+            fields={CREATE_ARTIST_FIELDS}
+            onSubmit={handleCreateArtist}
+            loading={createMutation.isPending}
+            submitLabel="Crear"
           />
-          <Select
-            label="Dificultad"
-            options={difficultyOptions}
-            value={defaults.difficulty}
-            onChange={(value) => setDefaults({ difficulty: value as Difficulty })}
-          />
-          <Select
-            label="Instrumento"
-            options={instrumentOptions}
-            value={defaults.instrument}
-            onChange={(value) => setDefaults({ instrument: value as Instrument })}
-          />
-        </div>
-      </section>
-
-      <Modal open={createOpen} onOpenChange={setCreateOpen} title="Crear artista" maxWidth={480}>
-        <FormBuilder<ArtistFormData>
-          schema={artistFormSchema}
-          fields={CREATE_ARTIST_FIELDS}
-          onSubmit={handleCreateArtist}
-          loading={createMutation.isPending}
-          submitLabel="Crear"
-        />
-      </Modal>
-    </div>
+        </Modal>
+      </Card.Body>
+    </Card>
   );
 }

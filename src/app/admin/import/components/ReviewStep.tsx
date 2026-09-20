@@ -1,9 +1,14 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { ChevronRight, ChevronDown, Eye, AlertTriangle, RefreshCw } from 'lucide-react';
+import { ChevronRight, ChevronDown, Eye, AlertTriangle, RefreshCw, ListChecks } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
+import { Card } from '@/components/ui/Card';
+import { EmptyState } from '@/components/ui/EmptyState';
+import { IconButton } from '@/components/ui/IconButton';
+import { Input } from '@/components/ui/Input';
+import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { Select, type SelectOption } from '@/components/ui/Select';
 import { Modal } from '@/components/ui/Modal';
 import { useRunParse, useImportReview } from '@/features/admin/import/import.hooks';
@@ -16,7 +21,7 @@ import {
   TAB_STATUS_LABELS,
 } from '@/features/admin/import/import.constants';
 import type { ImportVersionStatus } from '@/features/admin/import/import.types';
-import type { Difficulty, Instrument } from '@/lib/api/enums';
+import type { Difficulty, Instrument, TabStatus } from '@/lib/api/enums';
 import styles from './ReviewStep.module.css';
 
 function toOptions<T extends string>(labels: Record<T, string>): SelectOption[] {
@@ -38,6 +43,13 @@ function statusBadgeVariant(
   if (status === 'discard') return 'rejected';
   return 'default';
 }
+
+const TARGET_STATUS_VARIANT: Record<TabStatus, 'draft' | 'pending' | 'published' | 'rejected'> = {
+  DRAFT: 'draft',
+  PENDING: 'pending',
+  PUBLISHED: 'published',
+  REJECTED: 'rejected',
+};
 
 export function ReviewStep() {
   const { runParse } = useRunParse();
@@ -96,42 +108,6 @@ export function ReviewStep() {
 
   const closePreview = useCallback(() => setPreviewId(null), []);
 
-  if (isParsing) {
-    return (
-      <div className={styles.step}>
-        <div className={styles.loadingState} aria-live="polite" aria-busy="true">
-          <RefreshCw size={32} className={styles.spinIcon} aria-hidden />
-          <p>Analizando archivos…</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (parseError) {
-    return (
-      <div className={styles.step}>
-        <div className={styles.errorState} role="alert">
-          <AlertTriangle size={24} className={styles.errorIcon} aria-hidden />
-          <p className={styles.errorMessage}>{parseError}</p>
-          <Button variant="secondary" onClick={() => runParse()}>
-            <RefreshCw size={16} aria-hidden />
-            Reintentar
-          </Button>
-        </div>
-      </div>
-    );
-  }
-
-  if (groups.length === 0) {
-    return (
-      <div className={styles.step}>
-        <div className={styles.emptyState} aria-live="polite">
-          <p>No se encontraron archivos .cho o .chor para revisar.</p>
-        </div>
-      </div>
-    );
-  }
-
   const previewRecord = previewId ? byId[previewId] : null;
   const previewContent = previewId ? (previewCache.get(previewId) ?? null) : null;
   const previewTitle = previewRecord
@@ -139,165 +115,216 @@ export function ReviewStep() {
     : '';
 
   return (
-    <div className={styles.step}>
-      <header className={styles.intro}>
-        <h2 className={styles.heading}>Revisión</h2>
-        <p className={styles.note}>
+    <>
+      <Card>
+        <Card.Header>
+          <h3>Revisión</h3>
+        </Card.Header>
+        <Card.Description>
           Revisá y ajustá cada versión antes de importar. Los cambios se guardan en el momento.
-        </p>
-      </header>
+        </Card.Description>
+        <Card.Body className={styles.body}>
+          {isParsing ? (
+            <div className={styles.loadingState} aria-live="polite" aria-busy="true">
+              <RefreshCw size={32} className={styles.spinIcon} aria-hidden />
+              <p>Analizando archivos…</p>
+            </div>
+          ) : parseError ? (
+            <div className={styles.errorState} role="alert">
+              <AlertTriangle size={24} className={styles.errorIcon} aria-hidden />
+              <p className={styles.errorMessage}>{parseError}</p>
+              <Button variant="secondary" onClick={() => runParse()}>
+                <RefreshCw size={16} aria-hidden />
+                Reintentar
+              </Button>
+            </div>
+          ) : groups.length === 0 ? (
+            <EmptyState
+              icon={<ListChecks size={40} aria-hidden />}
+              title="No hay versiones para revisar"
+              description="No se encontraron archivos .cho o .chor para revisar."
+            />
+          ) : (
+            <>
+              <div className={styles.counter} aria-live="polite" aria-atomic="true">
+                <span className={styles.counterLabel}>Listos para importar:</span>
+                <span className={styles.counterValue}>{readyCount}</span>
+                <span className={styles.counterSub}>
+                  de {summary.total} ({summary.review} a revisar, {summary.discard} descartados)
+                </span>
+              </div>
 
-      <div className={styles.counter} aria-live="polite" aria-atomic="true">
-        <span className={styles.counterLabel}>Listos para importar:</span>
-        <span className={styles.counterValue}>{readyCount}</span>
-        <span className={styles.counterSub}>
-          de {summary.total} ({summary.review} a revisar, {summary.discard} descartados)
-        </span>
-      </div>
+              <div
+                className={styles.tableWrapper}
+                role="region"
+                aria-label="Tabla de revisión de versiones"
+              >
+                <table className={styles.table}>
+                  <thead className={styles.thead}>
+                    <tr>
+                      <th className={styles.thChevron} aria-label="Expandir/colapsar" />
+                      <th className={styles.th}>Canción</th>
+                      <th className={styles.th}>Versiones</th>
+                      <th className={styles.th}>Estado grupo</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {groups.map((group) => {
+                      const isExpanded = expanded.has(group.songKey);
+                      return [
+                        <tr
+                          key={`group-${group.songKey}`}
+                          className={styles.groupRow}
+                          onClick={() => toggleGroup(group.songKey)}
+                          aria-expanded={isExpanded}
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              toggleGroup(group.songKey);
+                            }
+                          }}
+                        >
+                          <td className={styles.tdChevron}>
+                            <span className={styles.chevronBtn} aria-hidden>
+                              {isExpanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
+                            </span>
+                          </td>
+                          <td className={styles.tdTitle}>
+                            <span className={styles.songTitle}>{group.songTitle}</span>
+                          </td>
+                          <td className={styles.tdVersionCount}>
+                            <Badge variant="default">{group.versionIds.length}</Badge>
+                          </td>
+                          <td className={styles.tdAggStatus}>
+                            <Badge variant={statusBadgeVariant(group.aggregateStatus)}>
+                              {IMPORT_VERSION_STATUS_LABELS[group.aggregateStatus]}
+                            </Badge>
+                          </td>
+                        </tr>,
 
-      <div
-        className={styles.tableWrapper}
-        role="region"
-        aria-label="Tabla de revisión de versiones"
-      >
-        <table className={styles.table}>
-          <thead className={styles.thead}>
-            <tr>
-              <th className={styles.thChevron} aria-label="Expandir/colapsar" />
-              <th className={styles.th}>Canción</th>
-              <th className={styles.th}>Versiones</th>
-              <th className={styles.th}>Estado grupo</th>
-            </tr>
-          </thead>
-          <tbody>
-            {groups.map((group) => {
-              const isExpanded = expanded.has(group.songKey);
-              return [
-                <tr
-                  key={`group-${group.songKey}`}
-                  className={styles.groupRow}
-                  onClick={() => toggleGroup(group.songKey)}
-                  aria-expanded={isExpanded}
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      toggleGroup(group.songKey);
-                    }
-                  }}
-                >
-                  <td className={styles.tdChevron}>
-                    <span className={styles.chevronBtn} aria-hidden>
-                      {isExpanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
-                    </span>
-                  </td>
-                  <td className={styles.tdTitle}>
-                    <span className={styles.songTitle}>{group.songTitle}</span>
-                  </td>
-                  <td className={styles.tdVersionCount}>
-                    <Badge variant="default">{group.versionIds.length}</Badge>
-                  </td>
-                  <td className={styles.tdAggStatus}>
-                    <Badge variant={statusBadgeVariant(group.aggregateStatus)}>
-                      {IMPORT_VERSION_STATUS_LABELS[group.aggregateStatus]}
-                    </Badge>
-                  </td>
-                </tr>,
-
-                ...(isExpanded
-                  ? [
-                      <tr key={`vhead-${group.songKey}`} className={styles.versionHeaderRow}>
-                        <td />
-                        <th className={styles.vth} scope="col">
-                          Versión / Título
-                        </th>
-                        <th className={styles.vth} scope="col">
-                          Tipo / Instrumento / Dificultad
-                        </th>
-                        <th className={styles.vth} scope="col">
-                          Revisión / Destino / Avisos
-                        </th>
-                      </tr>,
-
-                      ...group.versionIds.map((id) => {
-                        const record = byId[id];
-                        if (!record) return null;
-
-                        return (
-                          <tr key={`ver-${id}`} className={styles.versionRow}>
-                            <td className={styles.vIndent} />
-                            <td className={styles.vTitleCell}>
-                              <span className={styles.versionLabel}>{record.versionLabel}</span>
-                              <input
-                                type="text"
-                                className={styles.titleInput}
-                                defaultValue={record.title}
-                                aria-label={`Título de ${record.versionLabel}`}
-                                onBlur={(e) => updateRecord(id, { title: e.currentTarget.value })}
-                              />
-                            </td>
-
-                            <td className={styles.vMetaCell}>
-                              <span className={styles.metaLabel}>
-                                {TAB_TYPE_LABELS[record.tabType]}
-                              </span>
-                              <Select
-                                className={styles.inlineSelect}
-                                options={INSTRUMENT_OPTIONS}
-                                value={record.instrument}
-                                onChange={(v) => updateRecord(id, { instrument: v as Instrument })}
-                                aria-label={`Instrumento de ${record.versionLabel}`}
-                              />
-                              <Select
-                                className={styles.inlineSelect}
-                                options={DIFFICULTY_OPTIONS}
-                                value={record.difficulty}
-                                onChange={(v) => updateRecord(id, { difficulty: v as Difficulty })}
-                                aria-label={`Dificultad de ${record.versionLabel}`}
-                              />
-                            </td>
-
-                            <td className={styles.vStatusCell}>
-                              <Select
-                                className={styles.inlineSelect}
-                                options={STATUS_OPTIONS}
-                                value={record.status}
-                                onChange={(v) =>
-                                  updateRecord(id, { status: v as ImportVersionStatus })
-                                }
-                                aria-label={`Estado de revisión de ${record.versionLabel}`}
-                              />
-                              <span className={styles.targetStatusLabel}>
-                                {TAB_STATUS_LABELS[record.targetStatus]}
-                              </span>
-                              {record.warnings.length > 0 && (
-                                <span className={styles.warningsCount} title="Avisos">
-                                  <AlertTriangle size={14} aria-hidden />
-                                  {record.warnings.length}
-                                </span>
-                              )}
-                              <button
-                                type="button"
-                                className={styles.previewBtn}
-                                aria-label={`Vista previa de ${record.title} ${record.versionLabel}`}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  openPreview(id);
-                                }}
+                        ...(isExpanded
+                          ? [
+                              <tr
+                                key={`vhead-${group.songKey}`}
+                                className={styles.versionHeaderRow}
                               >
-                                <Eye size={18} aria-hidden />
-                              </button>
-                            </td>
-                          </tr>
-                        );
-                      }),
-                    ]
-                  : []),
-              ];
-            })}
-          </tbody>
-        </table>
-      </div>
+                                <td />
+                                <th className={styles.vth} scope="col">
+                                  Versión / Título
+                                </th>
+                                <th className={styles.vth} scope="col">
+                                  Tipo / Instrumento / Dificultad
+                                </th>
+                                <th className={styles.vth} scope="col">
+                                  Revisión / Destino / Avisos
+                                </th>
+                              </tr>,
+
+                              ...group.versionIds.map((id) => {
+                                const record = byId[id];
+                                if (!record) return null;
+
+                                return (
+                                  <tr key={`ver-${id}`} className={styles.versionRow}>
+                                    <td className={styles.vIndent} />
+                                    <td className={styles.vTitleCell}>
+                                      <div
+                                        className={`${styles.cluster} ${styles.clusterIdentity}`}
+                                      >
+                                        <span className={styles.versionLabel}>
+                                          {record.versionLabel}
+                                        </span>
+                                        <Input
+                                          size="compact"
+                                          className={styles.titleInput}
+                                          defaultValue={record.title}
+                                          aria-label={`Título de ${record.versionLabel}`}
+                                          onBlur={(e) =>
+                                            updateRecord(id, { title: e.currentTarget.value })
+                                          }
+                                        />
+                                      </div>
+                                    </td>
+
+                                    <td className={styles.vMetaCell}>
+                                      <div
+                                        className={`${styles.cluster} ${styles.clusterClassify}`}
+                                      >
+                                        <Badge variant="type">
+                                          {TAB_TYPE_LABELS[record.tabType]}
+                                        </Badge>
+                                        <Select
+                                          className={styles.inlineSelect}
+                                          options={INSTRUMENT_OPTIONS}
+                                          value={record.instrument}
+                                          onChange={(v) =>
+                                            updateRecord(id, { instrument: v as Instrument })
+                                          }
+                                          aria-label={`Instrumento de ${record.versionLabel}`}
+                                        />
+                                        <Select
+                                          className={styles.inlineSelect}
+                                          options={DIFFICULTY_OPTIONS}
+                                          value={record.difficulty}
+                                          onChange={(v) =>
+                                            updateRecord(id, { difficulty: v as Difficulty })
+                                          }
+                                          aria-label={`Dificultad de ${record.versionLabel}`}
+                                        />
+                                      </div>
+                                    </td>
+
+                                    <td className={styles.vStatusCell}>
+                                      <div className={`${styles.cluster} ${styles.clusterReview}`}>
+                                        <SegmentedControl
+                                          size="sm"
+                                          className={styles.statusSegmented}
+                                          options={STATUS_OPTIONS}
+                                          value={record.status}
+                                          onChange={(v) =>
+                                            updateRecord(id, { status: v as ImportVersionStatus })
+                                          }
+                                        />
+                                        <div className={styles.statusMeta}>
+                                          <Badge
+                                            variant={TARGET_STATUS_VARIANT[record.targetStatus]}
+                                          >
+                                            {TAB_STATUS_LABELS[record.targetStatus]}
+                                          </Badge>
+                                          {record.warnings.length > 0 && (
+                                            <Badge variant="pending">
+                                              <AlertTriangle size={12} aria-hidden />
+                                              {record.warnings.length}
+                                            </Badge>
+                                          )}
+                                          <IconButton
+                                            size="sm"
+                                            label={`Vista previa de ${record.title} ${record.versionLabel}`}
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              openPreview(id);
+                                            }}
+                                          >
+                                            <Eye size={18} aria-hidden />
+                                          </IconButton>
+                                        </div>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                );
+                              }),
+                            ]
+                          : []),
+                      ];
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+        </Card.Body>
+      </Card>
 
       {previewRecord && (
         <Modal
@@ -318,6 +345,6 @@ export function ReviewStep() {
           )}
         </Modal>
       )}
-    </div>
+    </>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { Check } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { IMPORT_STEPS } from '@/features/admin/import/import.constants';
 import type { ImportStep } from '@/features/admin/import/import.types';
@@ -65,18 +66,28 @@ export default function AdminImportPage() {
 
       <nav className={styles.stepper} aria-label="Pasos de importación">
         {IMPORT_STEPS.map((s, i) => {
-          const reachable = canReachStep(s);
           const isActive = s === step;
+          const isDone = i < currentIndex;
+          const isBlocked = !isActive && !isDone && !canReachStep(s);
+          const cls = isActive
+            ? styles.stepActive
+            : isDone
+              ? styles.stepDone
+              : isBlocked
+                ? styles.stepBlocked
+                : styles.step;
           return (
             <button
               key={s}
               type="button"
-              className={isActive ? styles.stepActive : styles.step}
+              className={cls}
               aria-current={isActive ? 'step' : undefined}
-              disabled={!reachable && !isActive}
+              disabled={isBlocked}
               onClick={() => setStep(s)}
             >
-              <span className={styles.stepIndex}>{i + 1}</span>
+              <span className={styles.stepIndex}>
+                {isDone ? <Check size={14} aria-hidden /> : i + 1}
+              </span>
               <span className={styles.stepLabel}>{STEP_LABELS[s]}</span>
             </button>
           );
