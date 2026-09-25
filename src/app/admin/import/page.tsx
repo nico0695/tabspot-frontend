@@ -4,7 +4,7 @@ import { Check } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { IMPORT_STEPS } from '@/features/admin/import/import.constants';
 import type { ImportStep } from '@/features/admin/import/import.types';
-import { useImportWizardStore } from '@/features/admin/import/import.store';
+import { isSendLocked, useImportWizardStore } from '@/features/admin/import/import.store';
 import { ArtistScopeStep } from './components/ArtistScopeStep';
 import { IntakeStep } from './components/IntakeStep';
 import { ReviewStep } from './components/ReviewStep';
@@ -37,14 +37,18 @@ export default function AdminImportPage() {
   const artist = useImportWizardStore((s) => s.artist);
   const rawFilesCount = useImportWizardStore((s) => s.rawFiles.length);
   const readyCount = useImportWizardStore((s) => s.summary.ready);
+  const sendStatus = useImportWizardStore((s) => s.sendStatus);
 
   const currentIndex = IMPORT_STEPS.indexOf(step);
   const prevStep = currentIndex > 0 ? IMPORT_STEPS[currentIndex - 1] : null;
   const nextStep = currentIndex < IMPORT_STEPS.length - 1 ? IMPORT_STEPS[currentIndex + 1] : null;
+  // A live send session (running/paused/error) pins the wizard to the send step.
+  const sendLocked = step === 'send' && isSendLocked(sendStatus);
 
   // Mirrors store gating for reactive stepper updates; setStep remains the guard.
   const canReachStep = (target: ImportStep) => {
     const toIdx = IMPORT_STEPS.indexOf(target);
+    if (sendLocked && target !== 'send') return false;
     if (toIdx <= currentIndex) return true;
     for (let i = currentIndex + 1; i <= toIdx; i += 1) {
       const gate = IMPORT_STEPS[i];
@@ -56,7 +60,7 @@ export default function AdminImportPage() {
   };
 
   const nextDisabled = !nextStep || !canReachStep(nextStep);
-  const backDisabled = !prevStep;
+  const backDisabled = !prevStep || sendLocked;
 
   return (
     <div className={styles.page}>
@@ -68,7 +72,7 @@ export default function AdminImportPage() {
         {IMPORT_STEPS.map((s, i) => {
           const isActive = s === step;
           const isDone = i < currentIndex;
-          const isBlocked = !isActive && !isDone && !canReachStep(s);
+          const isBlocked = !isActive && (sendLocked || (!isDone && !canReachStep(s)));
           const cls = isActive
             ? styles.stepActive
             : isDone

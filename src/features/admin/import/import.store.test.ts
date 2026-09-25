@@ -1,9 +1,16 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 import { Difficulty, Instrument, TabStatus, TabType } from '@/lib/api/enums';
 import { DEFAULT_IMPORT_DEFAULTS, DEFAULT_MAX_VERSIONS } from './import.constants';
-import { canGoToStep, useImportWizardStore } from './import.store';
+import { canGoToStep, isSendLocked, useImportWizardStore } from './import.store';
 import { selectSongGroups } from './import.selectors';
-import type { ImportParseOutput, ImportVersionRecord, ImportVersionStatus } from './import.types';
+import type {
+  ImportParseOutput,
+  ImportVersionRecord,
+  ImportVersionStatus,
+  SendProgress,
+  SendResult,
+  SendStatus,
+} from './import.types';
 
 function makeRecord(id: string, overrides: Partial<ImportVersionRecord> = {}): ImportVersionRecord {
   return {
@@ -42,6 +49,22 @@ function makeOutput(records: ImportVersionRecord[]): ImportParseOutput {
   return { records, summary };
 }
 
+function makeProgress(overrides: Partial<SendProgress> = {}): SendProgress {
+  return { batch: 1, totalBatches: 3, sent: 100, totalSongs: 250, errors: [], ...overrides };
+}
+
+function makeResult(overrides: Partial<SendResult> = {}): SendResult {
+  return {
+    inserted: { artists: 1, songs: 2, tabs: 3 },
+    skipped: 0,
+    results: [
+      { title: 'Song A', songStatus: 'created', songId: 's1', tabsInserted: 3, tabsSkipped: 0 },
+    ],
+    errors: [],
+    ...overrides,
+  };
+}
+
 beforeEach(() => {
   useImportWizardStore.getState().reset();
 });
@@ -59,6 +82,81 @@ describe('initial state', () => {
     expect(s.summary).toEqual({ total: 0, ready: 0, review: 0, discard: 0 });
     expect(s.isParsing).toBe(false);
     expect(s.parseError).toBeNull();
+  });
+});
+
+describe('send state', () => {
+  test('initial send state is idle/empty/null', () => {
+    const s = useImportWizardStore.getState();
+    expect(s.sendStatus).toBe('idle');
+    expect(s.sendProgress).toEqual({
+      batch: 0,
+      totalBatches: 0,
+      sent: 0,
+      totalSongs: 0,
+      errors: [],
+    });
+    expect(s.sendResult).toBeNull();
+  });
+
+  test('setSendStatus transitions correctly (idle -> running -> paused -> done)', () => {
+    const store = useImportWizardStore;
+    const transitions: SendStatus[] = ['running', 'paused', 'running', 'done'];
+    for (const status of transitions) {
+      store.getState().setSendStatus(status);
+      expect(store.getState().sendStatus).toBe(status);
+    }
+  });
+
+  test('setSendProgress updates progress', () => {
+    const progress = makeProgress({ batch: 2, sent: 200, totalSongs: 250 });
+    useImportWizardStore.getState().setSendProgress(progress);
+    expect(useImportWizardStore.getState().sendProgress).toEqual(progress);
+  });
+
+  test('setSendResult stores result', () => {
+    const result = makeResult();
+    useImportWizardStore.getState().setSendResult(result);
+    expect(useImportWizardStore.getState().sendResult).toEqual(result);
+  });
+
+  test('resetSend clears all send state to initial', () => {
+    const store = useImportWizardStore;
+    store.getState().setSendStatus('done');
+    store.getState().setSendProgress(makeProgress());
+    store.getState().setSendResult(makeResult());
+    store.getState().resetSend();
+    const s = store.getState();
+    expect(s.sendStatus).toBe('idle');
+    expect(s.sendProgress).toEqual({
+      batch: 0,
+      totalBatches: 0,
+      sent: 0,
+      totalSongs: 0,
+      errors: [],
+    });
+    expect(s.sendResult).toBeNull();
+  });
+
+  test('reset() clears send state along with everything else', () => {
+    const store = useImportWizardStore;
+    store.getState().setArtist({ name: 'Almafuerte' });
+    store.getState().setSendStatus('running');
+    store.getState().setSendProgress(makeProgress());
+    store.getState().setSendResult(makeResult());
+    store.getState().reset();
+    const s = store.getState();
+    expect(s.artist).toBeNull();
+    expect(s.step).toBe('artist');
+    expect(s.sendStatus).toBe('idle');
+    expect(s.sendProgress).toEqual({
+      batch: 0,
+      totalBatches: 0,
+      sent: 0,
+      totalSongs: 0,
+      errors: [],
+    });
+    expect(s.sendResult).toBeNull();
   });
 });
 
@@ -136,6 +234,66 @@ describe('gating (IU-03)', () => {
     const s = useImportWizardStore.getState();
     expect(canGoToStep(s, 'intake')).toBe(false);
     expect(canGoToStep(s, 'artist')).toBe(true);
+  });
+});
+
+describe('send lock (R4-001)', () => {
+  function enterSendStep() {
+    const store = useImportWizardStore;
+    store.getState().setArtist({ name: 'Almafuerte' });
+    store.getState().addRawFiles([makeRawFile('a/x.cho')]);
+    store.getState().setRecords(makeOutput([makeRecord('1', { status: 'ready' })]));
+    store.getState().setStep('send');
+    expect(store.getState().step).toBe('send');
+  }
+
+  test('isSendLocked is true only for running, paused and error', () => {
+    const cases: [SendStatus, boolean][] = [
+      ['idle', false],
+      ['running', true],
+      ['paused', true],
+      ['error', true],
+      ['done', false],
+    ];
+    for (const [status, locked] of cases) expect(isSendLocked(status)).toBe(locked);
+  });
+
+  test.each<SendStatus>(['running', 'paused', 'error'])(
+    'leaving send is rejected while %s',
+    (status) => {
+      enterSendStep();
+      const store = useImportWizardStore;
+      store.getState().setSendStatus(status);
+      for (const target of ['review', 'intake', 'artist'] as const) {
+        expect(canGoToStep(store.getState(), target)).toBe(false);
+        store.getState().setStep(target);
+        expect(store.getState().step).toBe('send');
+      }
+      expect(canGoToStep(store.getState(), 'send')).toBe(true);
+    },
+  );
+
+  test.each<SendStatus>(['idle', 'done'])('leaving send is allowed while %s', (status) => {
+    enterSendStep();
+    const store = useImportWizardStore;
+    store.getState().setSendStatus(status);
+    expect(canGoToStep(store.getState(), 'review')).toBe(true);
+    expect(canGoToStep(store.getState(), 'artist')).toBe(true);
+    store.getState().setStep('review');
+    expect(store.getState().step).toBe('review');
+    store.getState().setStep('artist');
+    expect(store.getState().step).toBe('artist');
+  });
+
+  test('cancel (resetSend) from error re-enables navigation', () => {
+    enterSendStep();
+    const store = useImportWizardStore;
+    store.getState().setSendStatus('error');
+    store.getState().setStep('review');
+    expect(store.getState().step).toBe('send');
+    store.getState().resetSend();
+    store.getState().setStep('review');
+    expect(store.getState().step).toBe('review');
   });
 });
 

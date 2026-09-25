@@ -6,7 +6,7 @@
 }
 
 .readyCount {
-  font-size: var(--fs-md);
+  font-size: var(--fs-base);
   color: var(--text);
 }
 
@@ -18,4 +18,256 @@
 .note {
   font-size: var(--fs-sm);
   color: var(--text-3);
+}
+
+/* --- Progress (running / paused) --- */
+
+.progressSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.progressRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.progressText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+}
+
+/* --- Error list --- */
+
+.errorList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+  margin: 0;
+  padding: var(--space-2);
+  list-style: none;
+  max-height: calc(var(--space-6) * 4);
+  overflow-y: auto;
+  border: 1px solid color-mix(in oklab, var(--error) 30%, transparent);
+  border-radius: var(--radius-md);
+  background: color-mix(in oklab, var(--error) 6%, transparent);
+}
+
+.errorItem {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas:
+    'index title code'
+    'index message message';
+  column-gap: var(--space-2);
+  row-gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-sm);
+  color: var(--text);
+}
+
+.errorIndex {
+  grid-area: index;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--error);
+  font-weight: var(--fw-semibold);
+}
+
+.errorTitle {
+  grid-area: title;
+  font-weight: var(--fw-medium);
+  color: var(--text);
+}
+
+.errorCode {
+  grid-area: code;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+.errorMessage {
+  grid-area: message;
+  font-size: var(--fs-xs);
+  color: var(--text-2);
+}
+
+.fieldErrorList {
+  grid-column: 2 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: var(--space-1) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fieldErrorItem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1);
+  font-size: var(--fs-xs);
+}
+
+.fieldErrorField {
+  font-family: var(--font-mono);
+  color: var(--error);
+  font-weight: var(--fw-semibold);
+}
+
+.fieldErrorSeparator {
+  color: var(--text-3);
+}
+
+.fieldErrorMessage {
+  color: var(--text-2);
+}
+
+/* --- Error state (alert) --- */
+
+.errorState {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px dashed color-mix(in oklab, var(--error) 40%, transparent);
+  border-radius: var(--radius-lg);
+  background: color-mix(in oklab, var(--error) 6%, transparent);
+}
+
+.errorAlert {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.errorAlertIcon {
+  flex-shrink: 0;
+  color: var(--error);
+  margin-top: 2px;
+}
+
+.errorAlert .errorMessage {
+  color: var(--text);
+  font-size: var(--fs-sm);
+}
+
+/* --- Results (done) --- */
+
+.resultsSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.resultsHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.resultsIcon {
+  color: var(--success);
+  flex-shrink: 0;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semibold);
+  color: var(--text);
+}
+
+.resultsSummary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.resultStat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+}
+
+.resultStatLabel {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.resultStatValue {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-semibold);
+  color: var(--text);
+  line-height: 1;
+}
+
+.songResultList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.songResultItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  border-top: 1px solid var(--border);
+  font-size: var(--fs-sm);
+  color: var(--text);
+}
+
+.songResultItem:first-child {
+  border-top: none;
+}
+
+.songResultTitle {
+  flex: 1 1 auto;
+  font-weight: var(--fw-medium);
+}
+
+.statusBadge {
+  flex-shrink: 0;
+}
+
+.songResultMeta {
+  flex-shrink: 0;
+  font-size: var(--fs-xs);
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+/* --- Actions --- */
+
+.buttonRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
 }

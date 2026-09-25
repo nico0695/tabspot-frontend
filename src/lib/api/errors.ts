@@ -9,6 +9,7 @@ const ERROR_MESSAGES: Record<string, string> = {
   USER_NOT_FOUND: 'Usuario no encontrado.',
   VALIDATION_ERROR: 'Los datos enviados no son válidos.',
   INTERNAL_SERVER_ERROR: 'Error del servidor. Intentá de nuevo más tarde.',
+  NETWORK_ERROR: 'Error de conexión. Verificá tu conexión e intentá de nuevo.',
 };
 
 export class ApiError extends Error {

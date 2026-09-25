@@ -7,7 +7,8 @@ export const ALLOWED_EXTENSIONS = ['.cho', '.chor', '.log'] as const;
 export const IMPORTABLE_EXTENSIONS = ['.cho', '.chor'] as const; // .log is enrichment only, not a version
 
 export const DEFAULT_MAX_VERSIONS = 10;
-export const DEFAULT_BATCH_SIZE = 50;
+export const SEND_INITIAL_BATCH_SIZE = 100;
+export const SEND_MAX_413_RETRIES = 3;
 
 export const TAB_STATUS_LABELS: Record<TabStatus, string> = {
   [TabStatus.DRAFT]: 'Borrador',

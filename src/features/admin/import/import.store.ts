@@ -8,6 +8,9 @@ import type {
   ImportVersionRecord,
   ImportVersionStatus,
   RawImportFile,
+  SendProgress,
+  SendResult,
+  SendStatus,
 } from './import.types';
 
 interface ImportArtist {
@@ -34,6 +37,10 @@ interface ImportWizardState {
 
   isParsing: boolean;
   parseError: string | null;
+
+  sendStatus: SendStatus;
+  sendProgress: SendProgress;
+  sendResult: SendResult | null;
 }
 
 interface ImportWizardActions {
@@ -47,10 +54,20 @@ interface ImportWizardActions {
   setParsing: (b: boolean) => void;
   setParseError: (e: string | null) => void;
   setStep: (s: ImportStep) => void;
+  setSendStatus: (status: SendStatus) => void;
+  setSendProgress: (progress: SendProgress) => void;
+  setSendResult: (result: SendResult) => void;
+  resetSend: () => void;
   reset: () => void;
 }
 
 export type ImportWizardStore = ImportWizardState & ImportWizardActions;
+
+const SEND_INITIAL: Pick<ImportWizardState, 'sendStatus' | 'sendProgress' | 'sendResult'> = {
+  sendStatus: 'idle',
+  sendProgress: { batch: 0, totalBatches: 0, sent: 0, totalSongs: 0, errors: [] },
+  sendResult: null,
+};
 
 const initialState: ImportWizardState = {
   step: 'artist',
@@ -63,6 +80,7 @@ const initialState: ImportWizardState = {
   summary: { total: 0, ready: 0, review: 0, discard: 0 },
   isParsing: false,
   parseError: null,
+  ...SEND_INITIAL,
 };
 
 export function canIntake(state: Pick<ImportWizardState, 'artist'>): boolean {
@@ -77,10 +95,17 @@ export function canSend(state: Pick<ImportWizardState, 'summary'>): boolean {
   return state.summary.ready > 0;
 }
 
+// A send session is live while running, paused or errored: the in-memory queue lives in
+// useBulkSend refs, so leaving the send step would orphan it.
+export function isSendLocked(status: SendStatus): boolean {
+  return status === 'running' || status === 'paused' || status === 'error';
+}
+
 export function canGoToStep(state: ImportWizardState, target: ImportStep): boolean {
   const fromIdx = IMPORT_STEPS.indexOf(state.step);
   const toIdx = IMPORT_STEPS.indexOf(target);
   if (toIdx < 0) return false;
+  if (state.step === 'send' && target !== 'send' && isSendLocked(state.sendStatus)) return false;
   if (toIdx <= fromIdx) return true;
   for (let i = fromIdx + 1; i <= toIdx; i += 1) {
     const stepGate = IMPORT_STEPS[i];
@@ -175,7 +200,15 @@ export const useImportWizardStore = create<ImportWizardStore>()((set) => ({
       return { step: s };
     }),
 
-  reset: () => set({ ...initialState, defaults: { ...DEFAULT_IMPORT_DEFAULTS } }),
+  setSendStatus: (sendStatus) => set({ sendStatus }),
+
+  setSendProgress: (sendProgress) => set({ sendProgress }),
+
+  setSendResult: (sendResult) => set({ sendResult }),
+
+  resetSend: () => set({ ...SEND_INITIAL }),
+
+  reset: () => set({ ...initialState, defaults: { ...DEFAULT_IMPORT_DEFAULTS }, ...SEND_INITIAL }),
 }));
 
 export const selectCanIntake = (s: ImportWizardStore) => canIntake(s);
