@@ -1,0 +1,130 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  letter-spacing: -0.01em;
+}
+
+/* --- Stepper --- */
+.stepper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.step,
+.stepActive,
+.stepDone,
+.stepBlocked {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--space-5);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text-2);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  cursor: pointer;
+  transition: var(--t-base);
+}
+
+.step:hover:not(:disabled),
+.stepDone:hover:not(:disabled) {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.stepBlocked {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.stepActive {
+  color: var(--text);
+  border-color: var(--accent-ctrl);
+  background: var(--accent-ctrl-soft);
+}
+
+.stepDone {
+  color: var(--text);
+  border-color: color-mix(in oklab, var(--success) 40%, var(--border));
+}
+
+.stepIndex {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-3);
+  height: var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--surface-2);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+}
+
+.stepActive .stepIndex {
+  background: var(--accent-ctrl);
+  color: var(--bg);
+}
+
+.stepDone .stepIndex {
+  background: var(--success);
+  color: var(--bg);
+}
+
+.stepLabel {
+  white-space: nowrap;
+}
+
+/* --- Step body --- */
+.stepBody {
+  /* thin wrapper; each step renders its own Card as the visible container */
+}
+
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 200px;
+  text-align: center;
+}
+
+.placeholderTitle {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+  color: var(--text);
+}
+
+.placeholderNote {
+  font-size: var(--fs-sm);
+  color: var(--text-3);
+}
+
+/* --- Footer nav --- */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.navButton {
+  min-height: var(--space-5);
+  min-width: 120px;
+}

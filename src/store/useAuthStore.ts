@@ -5,7 +5,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 import type { User } from '@/features/auth/types';
 import { createClient } from '@/lib/supabase/client';
 import { fetchWithAuth } from '@/lib/api/fetcher';
-import { ApiError } from '@/lib/api/errors';
+import { ApiError } from '@/lib/api';
 
 interface AuthState {
   user: User | null;
@@ -136,17 +136,11 @@ export const useAuthStore = create<AuthStore>()(
             return false;
           }
 
-          const currentToken = get().token;
-
-          if (session.access_token !== currentToken) {
+          if (!get().user) {
             const user = await fetchWithAuth<User>(session.access_token, '/api/v1/me');
-
-            set({
-              user,
-              token: session.access_token,
-              isAuthenticated: true,
-              error: null,
-            });
+            set({ user, token: session.access_token, isAuthenticated: true, error: null });
+          } else {
+            set({ token: session.access_token, isAuthenticated: true });
           }
 
           return true;
@@ -165,7 +159,6 @@ export const useAuthStore = create<AuthStore>()(
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         user: state.user,
-        token: state.token,
         isAuthenticated: state.isAuthenticated,
       }),
       skipHydration: true,
